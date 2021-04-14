@@ -19,15 +19,14 @@ namespace Sistema_Factura.Controllers
 
         public IActionResult Index()
         {
-            var tempPro = (from p in _context.TempProducto
-                           //orderby p.ProductoId ascending
+            //Consulta de los registros en el Modelo: TempProducto
+            var tempPro = (from p in _context.TempProducto                           
                           select p).ToList();
 
             if (!tempPro.Count.Equals(0))
             {
                 foreach (var item in tempPro)
-                {
-                    //var prConsulta = _context.TempProducto.Where(u => u.TempProductoId.Equals(item.TempProductoId)).ToList().Last();
+                {                    
                     var guardarFactura = new Test
                     {                        
                         Cantidad = item.Cantidad_temp,
@@ -36,11 +35,8 @@ namespace Sistema_Factura.Controllers
                     };
                     //Guarda en Modelo Factura y detalle
                     _context.Test.AddRange(guardarFactura);
-                     _context.SaveChanges();
-
-                    
-                }
-                
+                    _context.SaveChanges();                    
+                }                
             }
             //Elimina los registros del modelo Temporal            
             var x = (from y in _context.TempProducto

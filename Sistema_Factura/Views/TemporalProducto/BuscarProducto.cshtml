@@ -1,0 +1,56 @@
+﻿@model Sistema_Factura.ViewModels.AgregarProducto
+@{
+
+    ViewData["Title"] = "BuscarProducto";
+
+}
+
+<h1 class="text-center">BuscarProducto</h1>
+
+@*Buscar nombre usuarios*@
+<div class="col-md-4  float-right">
+    <div class="row">
+        <form asp-controller="TemporalProducto" asp-action="BuscarProducto">
+            <p>
+                Usuario: <input type="number" name="CodigoProd" />
+                <input class="btn btn-success" type="submit" value="Buscar" />
+            </p>
+        </form>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row" style="margin-top:50px">
+        <div class="col-md-8">
+            <form asp-action="AgregarProducto" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="ProductoId" />
+
+                <div class="form-group">
+                    <label asp-for="NombreProducto" class="col-form-label"></label>
+                    <input asp-for="NombreProducto" disabled class="form-control">
+                </div>
+                <div class="form-group">
+                    <label asp-for="CodigoProducto" class="col-form-label"></label>
+                    <input asp-for="CodigoProducto"  disabled class="form-control">
+                </div>
+                <div class="form-group">
+                    <label asp-for="PrecioProductoCompra" class="col-form-label"></label>
+                    <input asp-for="PrecioProductoCompra" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label asp-for="Cantidad" class="col-form-label"></label>
+                    <input asp-for="Cantidad" type="number" class="form-control">
+                    
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Guardar" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+<partial name="_ProductoAddTem" />
