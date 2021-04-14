@@ -1,0 +1,63 @@
+﻿@model IEnumerable<Sistema_Factura.Models.Producto>
+@{
+    ViewData["Title"] = "ProductosRegistrados";
+}
+
+<h1 class="text-center">ProductosRegistrados</h1>
+
+<p>
+    <a asp-action="NuevoProducto" class="btn btn-secondary">Crear Nuevo</a>
+</p>
+<div>
+    @if (TempData["mensajeProductoRegistrado"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fase show" role="alert">
+            @TempData["mensajeProductoRegistrado"]
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>CodigoProducto</th>
+            <th>NOMBRE</th>
+            <th>EstadoProducto</th>
+            <th>FechaIngreso</th>
+            <th>PrecioProductoCompra</th>            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CodigoProducto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreProducto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EstadoProducto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaIngreso)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PrecioProductoCompra)
+                </td>               
+
+                <td>
+                    <a asp-action="UsersUpdate" class="btn btn-info" asp-route-id="@item.ProductoId">Editar</a> |
+                    @*<a asp-action="DeleteUser" class="btn btn-danger" asp-route-id="@item.UserSecurityId">Eliminar</a>*@
+
+                    <a href="#DeleteConfirmation" id="datoID" class="btnDelete btn btn-danger" data-toggle="modal" data-id="@item.ProductoId">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

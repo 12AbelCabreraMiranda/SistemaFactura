@@ -1,0 +1,60 @@
+﻿@model Sistema_Factura.Models.Producto
+
+@{
+    ViewData["Title"] = "NuevoProducto";
+}
+
+<h1 class="text-center">Registrar Nuevos Productos</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="NuevoProducto" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="CodigoProducto" class="control-label"></label>
+                <input asp-for="CodigoProducto" class="form-control" />
+                <span asp-validation-for="CodigoProducto" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="NombreProducto" class="control-label"></label>
+                <input asp-for="NombreProducto" class="form-control" />
+                <span asp-validation-for="NombreProducto" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="PrecioProductoCompra" class="control-label"></label>
+                <input asp-for="PrecioProductoCompra" class="form-control" />
+                <span asp-validation-for="PrecioProductoCompra" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+
+            <div>
+                @if (TempData["mensajeProductoExiste"] != null)
+                {
+                    <div class="alert alert-warning alert-dismissible fase show" role="alert">
+                        @TempData["mensajeProductoExiste"]
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                }
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="ProductosRegistrados">Cancelar</a>
+</div>
+
+@*Validación del lado del cliente*@
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
