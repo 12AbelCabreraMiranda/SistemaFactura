@@ -16,16 +16,16 @@ namespace Sistema_Factura.Controllers
         private readonly Sistema_FacturaContext _context;
         public HomeController(Sistema_FacturaContext context) => _context = context;
 
-
+        //Método para Obtener el Valor total de la Factura a Vender
         [HttpPost]
         public JsonResult BuscarTempProducto()
         {                                
             var _totalFactura = (from s in _context.TempProducto
                                  select s.SubTotal_temp).Sum();
 
-
             return Json(_totalFactura);
         }
+        //Método para obtener el Nit del Cliente
         [HttpPost]
         public JsonResult BuscarNit(string nit)
         {
@@ -33,10 +33,34 @@ namespace Sistema_Factura.Controllers
                             where s.Nit==nit
                             select s.NombreCliente).FirstOrDefault();
 
-
             return Json(_cliente);
         }
+        
+        //Método para obtener el nombre del nit
+        [HttpPost]
+        public JsonResult MostrarNombreCliente()
+        {
+            var _clienteId = (from t in _context.TempProducto    
+                              join c in _context.Cliente
+                              on t.IdCliente_temp equals c.ClienteId
+                              
+                            select c.NombreCliente).FirstOrDefault();
 
+            return Json(_clienteId);
+        }
+
+        //Método para obtener el nit
+        [HttpPost]
+        public JsonResult MostrarNit()
+        {
+            var _clienteId = (from t in _context.TempProducto
+                              join c in _context.Cliente
+                              on t.IdCliente_temp equals c.ClienteId
+
+                              select c.Nit).FirstOrDefault();
+
+            return Json(_clienteId);
+        }
 
         public IActionResult Index()
         {

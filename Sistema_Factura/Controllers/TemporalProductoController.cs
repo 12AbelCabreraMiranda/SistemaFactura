@@ -80,7 +80,11 @@ namespace Sistema_Factura.Controllers
         }
         [HttpPost]
         public IActionResult AgregarProducto( AgregarProducto agregarProductoModel)
-        {                                     
+        {
+            //Query para obtener Id del nitCliente.
+            var _nitCliente_temp = _context.Cliente.Where(n => n.Nit.Equals(agregarProductoModel.NitCliente_temp)).FirstOrDefault();
+            
+
             //Procedimiento para los subtotales de los productos
             var _subTotal = agregarProductoModel.PrecioProductoCompra * agregarProductoModel.Cantidad;
 
@@ -99,16 +103,30 @@ namespace Sistema_Factura.Controllers
                 }
                 else
                 {
-                    //Guardar producto temporal para la factura
-                    var add_tempProducto = new TempProducto()
+                    //Consulta Model TempProducto
+                    var validarNit = _context.TempProducto.FirstOrDefault();
+                    //Comparar Id de los clientes, de acuerdo al Numero de Nit Consultado
+                    if (validarNit.IdCliente_temp.Equals(_nitCliente_temp.ClienteId))
                     {
-                        Cantidad_temp = agregarProductoModel.Cantidad,
-                        PrecioVenta_temp = agregarProductoModel.PrecioProductoCompra,
-                        ProductoId = agregarProductoModel.ProductoId,
-                        SubTotal_temp = _subTotal
-                    };
-                    _context.TempProducto.Add(add_tempProducto);
-                    _context.SaveChanges();
+                        //Guardar producto temporal para la factura
+                        var add_tempProducto = new TempProducto()
+                        {
+                            Cantidad_temp = agregarProductoModel.Cantidad,
+                            PrecioVenta_temp = agregarProductoModel.PrecioProductoCompra,
+                            ProductoId = agregarProductoModel.ProductoId,
+                            SubTotal_temp = _subTotal,
+                            IdCliente_temp = _nitCliente_temp.ClienteId
+                        };
+                        _context.TempProducto.Add(add_tempProducto);
+                        _context.SaveChanges();
+                    }
+                    else
+                    {
+                        TempData["messageNitDiferente"] = "Hay una factura Pendiente del cliente: "+ _nitCliente_temp.NombreCliente + ". Vender la Factura pendiente para poder" +
+                            " crear una nueva Factura.";
+
+                        return RedirectToAction(nameof(BuscarProducto));
+                    }
                 }
             }
            
@@ -116,14 +134,14 @@ namespace Sistema_Factura.Controllers
         }
 
         //Se crea la factura con los productos vendidos
-        public IActionResult GuardarFactura(string _nitCliente)
-        {
-            //Consulta a cliente
-            var queryCliente = _context.Cliente.Where(c => c.Nit.Equals(_nitCliente)).FirstOrDefault();
+        public IActionResult GuardarFactura()
+        {           
             //Consulta de los registros en el Modelo: TempProducto
             var tempPro = (from p in _context.TempProducto
                            select p).ToList();
-            
+            //Consulta Nit en Modelo TempProducto
+            var _nitTemPro = _context.TempProducto.FirstOrDefault();
+
             //Obtener suma Total de los productos a vender de la factura
             var _totalFactura = (from s in _context.TempProducto
                                select s.SubTotal_temp).Sum();
@@ -136,7 +154,7 @@ namespace Sistema_Factura.Controllers
             {                
                 TotalPrecio = _totalFactura,
                 EstadoFactura = 1,
-                ClienteId = queryCliente.ClienteId,
+                ClienteId = _nitTemPro.IdCliente_temp,
                 FechaFactura=FechaSistema
             };
             _context.Factura.Add(_factura);

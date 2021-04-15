@@ -14,6 +14,7 @@ namespace Sistema_Factura.ViewModels
 
         [Display(Name = "Precio de Venta")]
         public decimal PrecioProductoCompra { get; set; }
-        public int Cantidad { get; set; }     
+        public int Cantidad { get; set; }
+        public string NitCliente_temp { get; set; }
     }
 }
