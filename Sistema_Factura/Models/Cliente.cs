@@ -17,5 +17,7 @@ namespace Sistema_Factura.Models
 
         //Relacion con Modelo: Factura
         public List<Factura> Factura { get; set; }
+
+    
     }
 }

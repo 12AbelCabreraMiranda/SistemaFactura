@@ -1,0 +1,80 @@
+﻿@model IEnumerable<Sistema_Factura.Models.Factura>
+
+@{
+    ViewData["Title"] = "Facturas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-center">Facturas</h1>
+
+@*Buscar Nit*@
+<div class="col-md-4  float-right">
+    <div class="row">
+        <form asp-controller="Facturas" asp-action="Facturas">
+            <p>
+                Nit: <input type="text" name="buscarNit" />
+                <input class="btn btn-success" type="submit" value="Buscar" />
+            </p>
+        </form>
+    </div>
+</div>
+
+@*Buscar fechas*@
+<div class="col-md-6">
+    <div class="row">
+        <form asp-controller="Facturas" asp-action="Facturas">
+            <p>
+                Desde: <input type="date" name="fechaInicio" />
+                Hasta: <input type="date" name="fechaFin" />
+                <input class="btn btn-success" type="submit" value="Buscar" />
+            </p>
+
+        </form>
+    </div>
+</div>
+<br />
+<br />
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                FECHA
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cliente)
+            </th>
+            <th>
+                NIT
+            </th>
+            <th>
+                TOTAL
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaFactura)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cliente.NombreCliente)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cliente.Nit)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalPrecio)
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.FacturaId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.FacturaId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

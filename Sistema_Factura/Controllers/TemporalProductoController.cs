@@ -105,10 +105,10 @@ namespace Sistema_Factura.Controllers
                 {
                     //Consulta Model TempProducto
                     var validarNit = _context.TempProducto.FirstOrDefault();
-                    //Comparar Id de los clientes, de acuerdo al Numero de Nit Consultado
-                    if (validarNit.IdCliente_temp.Equals(_nitCliente_temp.ClienteId))
+
+                    //Validación si existe registros
+                    if (validarNit == null)
                     {
-                        //Guardar producto temporal para la factura
                         var add_tempProducto = new TempProducto()
                         {
                             Cantidad_temp = agregarProductoModel.Cantidad,
@@ -122,10 +122,28 @@ namespace Sistema_Factura.Controllers
                     }
                     else
                     {
-                        TempData["messageNitDiferente"] = "Hay una factura Pendiente del cliente: "+ _nitCliente_temp.NombreCliente + ". Vender la Factura pendiente para poder" +
-                            " crear una nueva Factura.";
+                        //Comparar Id de los clientes, de acuerdo al Numero de Nit Consultado
+                        if (validarNit.IdCliente_temp.Equals(_nitCliente_temp.ClienteId))
+                        {
+                            //Guardar producto temporal para la factura
+                            var add_tempProducto = new TempProducto()
+                            {
+                                Cantidad_temp = agregarProductoModel.Cantidad,
+                                PrecioVenta_temp = agregarProductoModel.PrecioProductoCompra,
+                                ProductoId = agregarProductoModel.ProductoId,
+                                SubTotal_temp = _subTotal,
+                                IdCliente_temp = _nitCliente_temp.ClienteId
+                            };
+                            _context.TempProducto.Add(add_tempProducto);
+                            _context.SaveChanges();
+                        }
+                        else
+                        {                            
+                            TempData["messageNitDiferente"] = "Hay una factura Pendiente. Vender la Factura pendiente para poder" +
+                                " crear una nueva Factura.";
 
-                        return RedirectToAction(nameof(BuscarProducto));
+                            return RedirectToAction(nameof(BuscarProducto));
+                        }
                     }
                 }
             }
@@ -154,8 +172,7 @@ namespace Sistema_Factura.Controllers
                 //Guardar en Modelo Factura
                 var _factura = new Factura
                 {                
-                    TotalPrecio = _totalFactura,
-                    EstadoFactura = 1,
+                    TotalPrecio = _totalFactura,                    
                     ClienteId = _nitTemPro.IdCliente_temp,
                     FechaFactura=FechaSistema
                 };
@@ -174,7 +191,8 @@ namespace Sistema_Factura.Controllers
                             PrecioVenta = item.PrecioVenta_temp,
                             FacturaId=_factura.FacturaId,// El ID, Lo he tomado como el numero de factura
                             ProductoId = item.ProductoId,
-                            SubTotal=item.SubTotal_temp
+                            SubTotal=item.SubTotal_temp,
+                            EstadoFactura = 1,
                         };                    
                         _context.DetalleFactura.AddRange(_detalleFactura);
                         _context.SaveChanges();

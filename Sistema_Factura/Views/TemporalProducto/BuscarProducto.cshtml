@@ -50,8 +50,8 @@
             </div>
 
             @*Show Nit encontrado*@
-            <div class="alert alert-info" role="alert">
-                NOMBRE CLIENTE: <a href="#" id="txtNombreCliente" class="alert-link"> Cliente</a>.
+            <div class="alert alert-warning" role="alert">
+                NOMBRE CLIENTE: <a href="#" id="txtNombreCliente" class="alert-link"> Cliente</a>.                
             </div>
         </div>
     </div>
@@ -116,7 +116,6 @@
         }
     </div>
     <div class="row">
-
         <div class="col-md-4">
             <input type="submit" value="Guardar" class=" form-control btn btn-primary" />
         </div>
@@ -124,6 +123,12 @@
             <a class="btn btn-dark form-control" asp-action="Index">Ver Factura</a>
         </div>
     </div>
+        <div class="alert alert-info" role="alert" style="margin-top:20px">
+            <b>NOTA: </b>
+            <p>Escribir el mismo Nit para agregar más producto a la factura existente.</p>
+            
+            <p>VALIDACIÓN DE NIT: Un número de Nit es válido cuando el borde del campo de texto es color Verde. De lo contrario el borde es color Rojo</p>
+        </div>
 </form>
 @*Validación del lado del cliente*@
 @section Scripts{
