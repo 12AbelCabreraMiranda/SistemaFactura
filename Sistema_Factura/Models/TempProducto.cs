@@ -14,7 +14,7 @@ namespace Sistema_Factura.Models
         public int TempProductoId { get; set; }
         public int Cantidad_temp { get; set; }
         public decimal PrecioVenta_temp { get; set; }
-        
+        public decimal SubTotal_temp { get; set; }
         //Relacion con Modelo: Producto
         public int ProductoId { get; set; }
         public Producto Producto { get; set; }

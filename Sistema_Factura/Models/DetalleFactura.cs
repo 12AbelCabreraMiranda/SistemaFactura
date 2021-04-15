@@ -15,6 +15,7 @@ namespace Sistema_Factura.Models
         public int Cantidad { get; set; }
         public decimal PrecioVenta { get; set; }
 
+        public decimal SubTotal { get; set; }
         //Relación con Modelo: Factura
         public int FacturaId { get; set; }
         public Factura Factura { get; set; }
@@ -22,6 +23,7 @@ namespace Sistema_Factura.Models
         //Relacion con Modelo: Producto
         public int ProductoId { get; set; }
         public Producto Producto { get; set; }
+
 
     }
 }

@@ -75,14 +75,17 @@ namespace Sistema_Factura.Controllers
             //totalFact = sumarPrecio + agregarProductoModel.PrecioProductoCompra;
             //ViewBag.totalF = totalFact;
 
+            //Procedimiento para los subtotales de los productos
+            var _subTotal = agregarProductoModel.PrecioProductoCompra * agregarProductoModel.Cantidad;
+
             //Guardar producto temporal para la factura
-            var add_tempProducto  = new TempProducto()
+            var add_tempProducto = new TempProducto()
             {
                 Cantidad_temp = agregarProductoModel.Cantidad,
                 PrecioVenta_temp = agregarProductoModel.PrecioProductoCompra,
-                ProductoId=agregarProductoModel.ProductoId
+                ProductoId = agregarProductoModel.ProductoId,
+                SubTotal_temp = _subTotal
             };
-
             _context.TempProducto.Add(add_tempProducto);
             _context.SaveChanges();
 
@@ -97,8 +100,8 @@ namespace Sistema_Factura.Controllers
                            select p).ToList();
             
             //Obtener suma Total de los productos a vender de la factura
-            var _totalPrecio = (from s in _context.TempProducto
-                               select s.PrecioVenta_temp).Sum();
+            var _totalFactura = (from s in _context.TempProducto
+                               select s.SubTotal_temp).Sum();
 
             //Fecha del sistema
             DateTime FechaSistema = System.DateTime.Now;
@@ -106,7 +109,7 @@ namespace Sistema_Factura.Controllers
             //Guardar en Modelo Factura
             var _factura = new Factura
             {                
-                TotalPrecio = _totalPrecio,
+                TotalPrecio = _totalFactura,
                 EstadoFactura = 1,
                 ClienteId = 2,
                 FechaFactura=FechaSistema
@@ -125,7 +128,8 @@ namespace Sistema_Factura.Controllers
                         Cantidad = item.Cantidad_temp,
                         PrecioVenta = item.PrecioVenta_temp,
                         FacturaId=_factura.FacturaId,// El ID, Lo he tomado como el numero de factura
-                        ProductoId = item.ProductoId
+                        ProductoId = item.ProductoId,
+                        SubTotal=item.SubTotal_temp
                     };                    
                     _context.DetalleFactura.AddRange(_detalleFactura);
                     _context.SaveChanges();
