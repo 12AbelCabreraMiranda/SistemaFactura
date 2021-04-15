@@ -14,6 +14,7 @@ namespace Sistema_Factura.Models
         public int FacturaId { get; set; }        
         public decimal TotalPrecio { get; set; }        
         public DateTime FechaFactura { get; set; }
+        public int EstadoFactura { get; set; }
         //Relación con Modelo: 
         public int ClienteId { get; set; }
         public Cliente Cliente { get; set; }

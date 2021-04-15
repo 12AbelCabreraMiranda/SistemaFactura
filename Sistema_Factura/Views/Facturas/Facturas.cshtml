@@ -37,7 +37,7 @@
 
 <table class="table">
     <thead>
-        <tr>
+        <tr>            
             <th>
                 FECHA
             </th>
@@ -56,25 +56,24 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.FechaFactura)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Cliente.NombreCliente)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Cliente.Nit)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TotalPrecio)
-                </td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.FacturaId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.FacturaId">Delete</a>
-                </td>
-            </tr>
+        <tr>            
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaFactura)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cliente.NombreCliente)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cliente.Nit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalPrecio)
+            </td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.FacturaId">Details</a> |
+                <a asp-action="DeleteFactura" asp-route-id="@item.FacturaId">Delete</a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>

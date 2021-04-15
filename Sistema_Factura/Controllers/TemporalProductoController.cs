@@ -174,7 +174,8 @@ namespace Sistema_Factura.Controllers
                 {                
                     TotalPrecio = _totalFactura,                    
                     ClienteId = _nitTemPro.IdCliente_temp,
-                    FechaFactura=FechaSistema
+                    FechaFactura=FechaSistema,
+                    EstadoFactura=1
                 };
                 _context.Factura.Add(_factura);
                 _context.SaveChanges();
@@ -191,8 +192,7 @@ namespace Sistema_Factura.Controllers
                             PrecioVenta = item.PrecioVenta_temp,
                             FacturaId=_factura.FacturaId,// El ID, Lo he tomado como el numero de factura
                             ProductoId = item.ProductoId,
-                            SubTotal=item.SubTotal_temp,
-                            EstadoFactura = 1,
+                            SubTotal=item.SubTotal_temp                            
                         };                    
                         _context.DetalleFactura.AddRange(_detalleFactura);
                         _context.SaveChanges();

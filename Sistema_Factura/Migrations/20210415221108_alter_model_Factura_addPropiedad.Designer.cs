@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Sistema_Factura.DataContext;
 
 namespace Sistema_Factura.Migrations
 {
     [DbContext(typeof(Sistema_FacturaContext))]
-    partial class Sistema_FacturaContextModelSnapshot : ModelSnapshot
+    [Migration("20210415221108_alter_model_Factura_addPropiedad")]
+    partial class alter_model_Factura_addPropiedad
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,6 +47,9 @@ namespace Sistema_Factura.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("Cantidad")
+                        .HasColumnType("int");
+
+                    b.Property<int>("EstadoFactura")
                         .HasColumnType("int");
 
                     b.Property<int>("FacturaId")
