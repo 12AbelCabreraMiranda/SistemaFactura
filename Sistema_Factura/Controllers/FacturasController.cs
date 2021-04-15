@@ -14,8 +14,9 @@ namespace Sistema_Factura.Controllers
         private readonly Sistema_FacturaContext _context;
         public FacturasController(Sistema_FacturaContext context) => _context = context;
 
-        public async Task<IActionResult> Facturas( string buscarNit, string fechaInicio, string fechaFin)
-        {           
+        //Método para listar las facturas
+        public async Task<IActionResult> Facturas(string buscarNit, string fechaInicio, string fechaFin)
+        {
             //Search Cliente por su Nit +++++++++++++++++++++++++++++++++++++++++++++++++++++           
             var _nitFactura = from f in _context.Factura
                               join c in _context.Cliente
@@ -25,7 +26,7 @@ namespace Sistema_Factura.Controllers
             //Search Cliente
             if (!String.IsNullOrEmpty(buscarNit))
             {
-                _nitFactura = _nitFactura.Where(d=> d.Cliente.Nit.Contains(buscarNit));
+                _nitFactura = _nitFactura.Where(d => d.Cliente.Nit.Contains(buscarNit));
 
                 return View(await _nitFactura.Include(c => c.Cliente).ToListAsync());
             }
@@ -38,8 +39,8 @@ namespace Sistema_Factura.Controllers
             DateTime dtStart = Convert.ToDateTime(startDate);
             DateTime dtEndDate = Convert.ToDateTime(endDate).AddDays(1);
 
-            var _rangoFecha_Factura = from r in _context.Factura   
-                                      where r.EstadoFactura==1
+            var _rangoFecha_Factura = from r in _context.Factura
+                                      where r.EstadoFactura == 1
                                       select r;
 
             if (!String.IsNullOrEmpty(fechaInicio) && !String.IsNullOrEmpty(fechaFin))
@@ -49,19 +50,36 @@ namespace Sistema_Factura.Controllers
             }
             //*******************************************************************************
 
-            return View(await _nitFactura.Include(c =>c.Cliente).ToListAsync());
+            return View(await _nitFactura.Include(c => c.Cliente).ToListAsync());
         }
 
-        public IActionResult DeleteFactura(int id)
-        {            
+
+        //Método para actualizar Estados de Facturas
+        public IActionResult EliminarFactura(int id)
+        {
             //Actualizar estado en Factura
             var _facturaStatu = _context.Factura.Find(id);
             _facturaStatu.EstadoFactura = 0;
 
             _context.Update(_facturaStatu);
-            _context.SaveChanges();        
+            _context.SaveChanges();
 
-            return RedirectToAction(nameof(Facturas));            
+            return RedirectToAction(nameof(Facturas));
+        }
+
+        //Método detalles facturas
+        public async Task<IActionResult> DetalleFactura(int id)
+        {
+            var _detalleFactura = from d in _context.DetalleFactura
+                                  join f in _context.Factura on d.FacturaId equals f.FacturaId
+                                  join p in _context.Producto on d.ProductoId equals p.ProductoId
+                                  
+                                  select d;
+
+            _detalleFactura = _detalleFactura.Where(d => d.FacturaId.Equals(id));
+
+            return View(await _detalleFactura.Include(c => c.Factura).Include(p=>p.Producto).ToListAsync());
+            //return View(await _context.DetalleFactura.Include(c => c.Factura).Include(p => p.Producto).ToListAsync());
         }
     }
 }
