@@ -4,10 +4,43 @@
     ViewData["Title"] = "Index";
 
 }
+<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <h1 class="text-center">Factura</h1>
-<a class="btn btn-dark" asp-area="" asp-controller="TemporalProducto" asp-action="GuardarFactura">Guardar Factura</a>
-<br /><br />
+
+<div class="row">
+    <div class="container">
+        <form role="form">
+            <label for="nit" class="control-label">Nit:</label>
+            <div class="form-inline has-feedback">
+                <input type="text" id="nit" class="form-control mr-2 mb-2" placeholder="Nit" /><a class="btn btn-info" id="btnBuscar">Buscar</a>
+
+                <span class="glyphicon form-control-feedback"></span>
+            </div>
+        </form>
+        
+        <div class="alert alert-info" role="alert">
+            NOMBRE CLIENTE: <a href="#" id="txtNombreCliente" class="alert-link"> Cliente</a>.
+           
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="col-md-3">
+            <a class="btn btn-dark" id="btnNitCliente" asp-area="" asp-controller="TemporalProducto" asp-action="GuardarFactura">Guardar Factura</a>
+        </div>
+        <div class="col-md-3">
+            <a class="btn bg-success " asp-action="BuscarProducto">Agregar más producto</a>
+        </div>
+    </div>
+</div>
+
+<br />
+<br />
 @*Productos agregados*@
 <table class="table">
     <thead>
@@ -23,25 +56,136 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Producto.CodigoProducto)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Producto.NombreProducto)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cantidad_temp)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PrecioVenta_temp)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SubTotal_temp)
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Producto.CodigoProducto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Producto.NombreProducto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cantidad_temp)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PrecioVenta_temp)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SubTotal_temp)
+                </td>
+            </tr>
         }
+        
+
     </tbody>
-    
+    <thead>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><b>TOTAL:</b></td>
+            <td><b style="font-size: 20px">Q. <label id="total"></label></b></td>
+        </tr>
+    </thead>
 </table>
-<tr>TOTAL: Q. @ViewBag.totalF </tr>
+
+
+<script>
+    $(function () {
+    $("#btnBuscar").click(function () {
+
+        var url = "@Url.Action("BuscarNit", "Home")";
+        var nit = $("#nit").val();
+
+        var data = { nit: nit };
+
+        //jQuery
+        $.post(url, data).done(function (data) {
+            //Se ejecuta si la operacion fue un éxito
+            $("#txtNombreCliente").html(data);
+            //$("#txtPrecio").html(data);
+        }).fail(manejarErrorAjax).always(function () {
+            //Esta funcion siempre se ejecuta
+        });
+    });
+        function manejarErrorAjax(err) {
+    console.log(err.responseText);
+        }
+    });
+</script>
+<script>
+    $(function () {
+
+        var url = "@Url.Action("BuscarTempProducto", "Home")";
+
+            //jQuery
+            $.post(url).done(function (data) {
+                //Se ejecuta si la operacion fue un éxito
+                $("#total").html(data);
+                //$("#txtPrecio").html(data);
+            }).fail(manejarErrorAjax).always(function () {
+                //Esta funcion siempre se ejecuta
+            });
+    });
+    function manejarErrorAjax(err) {
+        console.log(err.responseText);
+    }
+</script>
+
+<script>
+    function nitIsValid(nit) {
+        if (!nit) {
+            return true;
+        }
+
+        var nitRegExp = new RegExp('^[0-9]+(-?[0-9kK])?$');
+
+        if (!nitRegExp.test(nit)) {
+            return false;
+        }
+
+        nit = nit.replace(/-/, '');
+        var lastChar = nit.length - 1;
+        var number = nit.substring(0, lastChar);
+        var expectedCheker = nit.substring(lastChar, lastChar + 1).toLowerCase();
+
+        var factor = number.length + 1;
+        var total = 0;
+
+        for (var i = 0; i < number.length; i++) {
+            var character = number.substring(i, i + 1);
+            var digit = parseInt(character, 10);
+
+            total += (digit * factor);
+            factor = factor - 1;
+        }
+
+        var modulus = (11 - (total % 11)) % 11;
+        var computedChecker = (modulus == 10 ? "k" : modulus.toString());
+
+        return expectedCheker === computedChecker;
+    }
+
+    $('#nit').bind('change paste keyup', function (e) {
+        var $this = $(this);
+        var $parent = $this.parent();
+        var $next = $this.next();
+        var nit = $this.val();
+
+        if (nit && nitIsValid(nit)) {
+            $parent.addClass('has-success');
+            $next.addClass('glyphicon-ok');
+            $parent.removeClass('has-error');
+            $next.removeClass('glyphicon-remove');
+        } else if (nit) {
+            $parent.addClass('has-error');
+            $next.addClass('glyphicon-remove');
+            $parent.removeClass('has-success');
+            $next.removeClass('glyphicon-ok');
+        } else {
+            $parent.removeClass('has-error');
+            $next.removeClass('glyphicon-remove');
+            $parent.removeClass('has-success');
+            $next.removeClass('glyphicon-ok');
+        }
+    });
+</script>

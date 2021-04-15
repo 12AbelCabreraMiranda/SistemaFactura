@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Sistema_Factura.DataContext;
 using Sistema_Factura.Models;
+using Sistema_Factura.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,8 +14,28 @@ namespace Sistema_Factura.Controllers
     public class HomeController : Controller
     {
         private readonly Sistema_FacturaContext _context;
-        public HomeController(Sistema_FacturaContext context) => _context = context;       
+        public HomeController(Sistema_FacturaContext context) => _context = context;
 
+
+        [HttpPost]
+        public JsonResult BuscarTempProducto()
+        {                                
+            var _totalFactura = (from s in _context.TempProducto
+                                 select s.SubTotal_temp).Sum();
+
+
+            return Json(_totalFactura);
+        }
+        [HttpPost]
+        public JsonResult BuscarNit(string nit)
+        {
+            var _cliente = (from s in _context.Cliente
+                            where s.Nit==nit
+                            select s.NombreCliente).FirstOrDefault();
+
+
+            return Json(_cliente);
+        }
 
 
         public IActionResult Index()

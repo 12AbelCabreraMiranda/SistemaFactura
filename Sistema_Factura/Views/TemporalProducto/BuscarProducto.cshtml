@@ -1,97 +1,99 @@
 ﻿@model Sistema_Factura.ViewModels.AgregarProducto
+
 @{
-
     ViewData["Title"] = "BuscarProducto";
-
 }
 
-<h1 class="text-center">BuscarProducto</h1>
+<h1 class="text-center">Agregar Productos a Factura</h1>
 
 @*Buscar nombre usuarios*@
 
 
-<div class="col-md-4  float-right">
-    <div class="row">
-        <form asp-controller="TemporalProducto" asp-action="BuscarProducto">
-            <p>
-                Codigo: <input asp-for="CodigoProducto" type="number" name="CodigoProd" />
-                <span asp-validation-for="CodigoProducto" class="text-danger"></span>
-                <input class="btn btn-success" type="submit" value="Buscar" />
-            </p>
-            <div>
-                @if (TempData["messageNoCodigoProducto"] != null)
-                {
-                    <div class="alert alert-warning alert-dismissible fase show" role="alert">
-                        @TempData["messageNoCodigoProducto"]
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                }
+<form asp-controller="TemporalProducto" asp-action="BuscarProducto">
+    <div class="container">
+        <div class="form-row">
+            <div class="col-md-4  float-right">
+                <p>
+                    <input placeholder="Codigo producto" asp-for="CodigoProducto" type="number" name="CodigoProd" />
+                    <span asp-validation-for="CodigoProducto" class="text-danger"></span>
+                    <input class="btn btn-success mb-2" type="submit" value="Buscar" />
+                </p>
+                <div>
+                    @if (TempData["messageNoCodigoProducto"] != null)
+                    {
+                        <div class="alert alert-warning alert-dismissible fase show" role="alert">
+                            @TempData["messageNoCodigoProducto"]
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    }
+                </div>
+
             </div>
-        </form>
-    </div>
-</div>
-
-<div class="container">
-    <div class="row" style="margin-top:50px">
-        <div class="col-md-8">
-            <form asp-action="AgregarProducto" method="post" enctype="multipart/form-data">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" asp-for="ProductoId" />
-
-                <div class="form-group">
-                    <label asp-for="NombreProducto" class="col-form-label"></label>
-                    <input asp-for="NombreProducto" disabled class="form-control">
-                </div>
-                <div class="form-group">
-                    <label asp-for="CodigoProducto" class="col-form-label"></label>
-                    <input asp-for="CodigoProducto" disabled class="form-control">
-                </div>
-                <div class="form-group">
-                    <label asp-for="PrecioProductoCompra" class="col-form-label"></label>
-                    <input asp-for="PrecioProductoCompra" disabled class="form-control">
-                    <input asp-for="PrecioProductoCompra" type="hidden" class="form-control">
-                </div>
-                <div class="form-group">
-                    <label asp-for="Cantidad" class="col-form-label"></label>
-                    <input asp-for="Cantidad" type="number" class="form-control">
-
-                </div>
-
-                <div class="form-group">
-                    <input type="submit" value="Guardar" class="btn btn-primary" />
-                </div>
-
-                <div>
-                    @if (TempData["messageCantidad"] != null)
-                    {
-                        <div class="alert alert-warning alert-dismissible fase show" role="alert">
-                            @TempData["messageCantidad"]
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    }
-                </div>
-
-                <div>
-                    @if (TempData["messageSinRegistros"] != null)
-                    {
-                        <div class="alert alert-warning alert-dismissible fase show" role="alert">
-                            @TempData["messageSinRegistros"]
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    }
-                </div>
-
-            </form>
         </div>
-
     </div>
-</div>
+</form>
+
+<form asp-action="AgregarProducto" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="ProductoId" />
+    <div class="container">
+        <div class="form-row">
+
+            <div class="form-group col-md-6 mb-3">
+                <label asp-for="NombreProducto" class="col-form-label"></label>
+                <input asp-for="NombreProducto" disabled class="form-control">
+            </div>
+            <div class="col-md-4 mb-3">
+                <label asp-for="CodigoProducto" class="col-form-label"></label>
+                <input asp-for="CodigoProducto" disabled class="form-control">
+            </div>
+            <div class="col-md-4">
+                <label asp-for="PrecioProductoCompra" class="col-form-label"></label>
+                <input asp-for="PrecioProductoCompra" disabled class="form-control">
+                <input asp-for="PrecioProductoCompra" type="hidden" class="form-control">
+            </div>
+            <div class="col-md-4">
+                <label asp-for="Cantidad" class="col-form-label"></label>
+                <input asp-for="Cantidad" type="number" class="form-control">
+            </div>
+
+        </div>
+    </div><br />
+    <div>
+        @if (TempData["messageCantidad"] != null)
+        {
+            <div class="alert alert-warning alert-dismissible fase show" role="alert">
+                @TempData["messageCantidad"]
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+    </div>
+
+    <div>
+        @if (TempData["messageSinRegistros"] != null)
+        {
+            <div class="alert alert-danger alert-dismissible fase show" role="alert">
+                @TempData["messageSinRegistros"]
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+    </div>
+    <div class="row">
+
+        <div class="col-md-4">
+            <input type="submit" value="Guardar" class=" form-control btn btn-primary" />
+        </div>
+        <div class="col-md-4">
+            <a class="btn btn-dark form-control" asp-action="Index">Ver Factura</a>
+        </div>
+    </div>
+</form>
 @*Validación del lado del cliente*@
 @section Scripts{
     @{

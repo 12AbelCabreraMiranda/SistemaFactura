@@ -15,13 +15,10 @@ namespace Sistema_Factura.Controllers
         //Inyección del contexto
         private readonly Sistema_FacturaContext _context;
         public TemporalProductoController(Sistema_FacturaContext context) => _context = context;
-        
+
         //public static decimal totalFact=0;
         public async Task<IActionResult> IndexAsync()
-        {
-            
-
-
+        {            
             var tempP = from t in _context.TempProducto                              
                               select t;
             
@@ -119,8 +116,10 @@ namespace Sistema_Factura.Controllers
         }
 
         //Se crea la factura con los productos vendidos
-        public IActionResult GuardarFactura()
+        public IActionResult GuardarFactura(string _nitCliente)
         {
+            //Consulta a cliente
+            var queryCliente = _context.Cliente.Where(c => c.Nit.Equals(_nitCliente)).FirstOrDefault();
             //Consulta de los registros en el Modelo: TempProducto
             var tempPro = (from p in _context.TempProducto
                            select p).ToList();
@@ -137,7 +136,7 @@ namespace Sistema_Factura.Controllers
             {                
                 TotalPrecio = _totalFactura,
                 EstadoFactura = 1,
-                ClienteId = 2,
+                ClienteId = queryCliente.ClienteId,
                 FechaFactura=FechaSistema
             };
             _context.Factura.Add(_factura);
