@@ -15,7 +15,7 @@ namespace Sistema_Factura.Controllers
         //Inyección del contexto
         private readonly Sistema_FacturaContext _context;
         public TemporalProductoController(Sistema_FacturaContext context) => _context = context;
-
+        
         //public static decimal totalFact=0;
         public async Task<IActionResult> IndexAsync()
         {
@@ -35,60 +35,86 @@ namespace Sistema_Factura.Controllers
         [HttpPost]
         //Metodo buscar producto para agregar a la Factura
         public IActionResult BuscarProducto(int CodigoProd)
-        {            
-            //Buscar codigo producto
-            var BuscarProducto = (from p in _context.Producto
-                                  where p.CodigoProducto == CodigoProd
-
-                                  select new AgregarProducto
-                                  {
-                                      ProductoId = p.ProductoId,
-                                      NombreProducto = p.NombreProducto,
-                                      CodigoProducto = p.CodigoProducto,
-                                      PrecioProductoCompra = p.PrecioProductoCompra
-                                  }).ToList();
-
-            //Consulta para la propiedad PrecioProductoCompra
-            var _precioCompraProducto = _context.Producto.Where(r=>r.CodigoProducto.Equals(CodigoProd)).FirstOrDefault();
-
-            //Procedimiento para Ganarle un porsentaje del 10% a las ventas por los productos registrados(comprados)
-            var precioVentaP = _precioCompraProducto.PrecioProductoCompra + (_precioCompraProducto.PrecioProductoCompra*10)/100;
-
-            AgregarProducto ProductoModel = new AgregarProducto
+        {
+            
+            if (ModelState.IsValid)
             {
-                ProductoId = BuscarProducto[0].ProductoId,
-                NombreProducto = BuscarProducto[0].NombreProducto,
-                CodigoProducto = BuscarProducto[0].CodigoProducto,
-                PrecioProductoCompra = precioVentaP
-            };            
 
-            return View(ProductoModel);
+                //Buscar codigo producto
+                var _buscarProducto = (from p in _context.Producto
+                                      where p.CodigoProducto == CodigoProd
+
+                                      select new AgregarProducto
+                                      {
+                                          ProductoId = p.ProductoId,
+                                          NombreProducto = p.NombreProducto,
+                                          CodigoProducto = p.CodigoProducto,
+                                          PrecioProductoCompra = p.PrecioProductoCompra
+                                      }).ToList();
+
+                //Consultar producto si existe
+                var _buscarCodigoProducto = _context.Producto.Where(c => c.CodigoProducto.Equals(CodigoProd)).FirstOrDefault();
+
+                if (!_buscarProducto.Count.Equals(0))
+                {
+                    //Consulta para la propiedad PrecioProductoCompra
+                    var _precioCompraProducto = _context.Producto.Where(r => r.CodigoProducto.Equals(CodigoProd)).FirstOrDefault();
+
+                    //Procedimiento para Ganarle un porsentaje del 10% a las ventas por los productos registrados(comprados)
+                    var precioVentaP = _precioCompraProducto.PrecioProductoCompra + (_precioCompraProducto.PrecioProductoCompra * 10) / 100;
+
+                    AgregarProducto ProductoModel = new AgregarProducto
+                    {
+                        ProductoId = _buscarProducto[0].ProductoId,
+                        NombreProducto = _buscarProducto[0].NombreProducto,
+                        CodigoProducto = _buscarProducto[0].CodigoProducto,
+                        PrecioProductoCompra = precioVentaP
+                    };
+                    return View(ProductoModel);
+                }
+                else
+                {
+                    TempData["messageNoCodigoProducto"] = "No hay producto registrado con el código ingresado";
+                }
+
+                
+            }
+            return View();
         }
         [HttpPost]
         public IActionResult AgregarProducto( AgregarProducto agregarProductoModel)
-        {
-            //Calculo de total factura
-            //var sumarPrecio = (from s in _context.TempProducto
-            //                   select s.PrecioVenta_temp).Sum();
-
-            //calcular total factura   
-            //totalFact = sumarPrecio + agregarProductoModel.PrecioProductoCompra;
-            //ViewBag.totalF = totalFact;
-
+        {                                     
             //Procedimiento para los subtotales de los productos
             var _subTotal = agregarProductoModel.PrecioProductoCompra * agregarProductoModel.Cantidad;
 
-            //Guardar producto temporal para la factura
-            var add_tempProducto = new TempProducto()
+            if (agregarProductoModel.Cantidad <= 0)
             {
-                Cantidad_temp = agregarProductoModel.Cantidad,
-                PrecioVenta_temp = agregarProductoModel.PrecioProductoCompra,
-                ProductoId = agregarProductoModel.ProductoId,
-                SubTotal_temp = _subTotal
-            };
-            _context.TempProducto.Add(add_tempProducto);
-            _context.SaveChanges();
-
+                TempData["messageCantidad"] = "La cantidad debe ser mayor a cero";
+                return RedirectToAction(nameof(BuscarProducto));
+            }
+            else
+            {
+                if (agregarProductoModel.PrecioProductoCompra==0)
+                {
+                    TempData["messageSinRegistros"] = "Debe agregar registro de un producto";
+                    
+                    return RedirectToAction(nameof(BuscarProducto));
+                }
+                else
+                {
+                    //Guardar producto temporal para la factura
+                    var add_tempProducto = new TempProducto()
+                    {
+                        Cantidad_temp = agregarProductoModel.Cantidad,
+                        PrecioVenta_temp = agregarProductoModel.PrecioProductoCompra,
+                        ProductoId = agregarProductoModel.ProductoId,
+                        SubTotal_temp = _subTotal
+                    };
+                    _context.TempProducto.Add(add_tempProducto);
+                    _context.SaveChanges();
+                }
+            }
+           
             return RedirectToAction(nameof(Index));
         }
 
