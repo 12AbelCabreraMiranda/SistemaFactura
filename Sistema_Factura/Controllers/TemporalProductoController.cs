@@ -149,42 +149,63 @@ namespace Sistema_Factura.Controllers
             //Fecha del sistema
             DateTime FechaSistema = System.DateTime.Now;
 
-            //Guardar en Modelo Factura
-            var _factura = new Factura
-            {                
-                TotalPrecio = _totalFactura,
-                EstadoFactura = 1,
-                ClienteId = _nitTemPro.IdCliente_temp,
-                FechaFactura=FechaSistema
-            };
-            _context.Factura.Add(_factura);
-            _context.SaveChanges();
-
-            //Guardar Rango de registros en Modelo: DetalleFactura
             if (!tempPro.Count.Equals(0))
             {
-                foreach (var item in tempPro)
-                {                    
-                    //Guarda en Modelo Detalle Factura
-                    var _detalleFactura = new DetalleFactura
-                    {
-                        Cantidad = item.Cantidad_temp,
-                        PrecioVenta = item.PrecioVenta_temp,
-                        FacturaId=_factura.FacturaId,// El ID, Lo he tomado como el numero de factura
-                        ProductoId = item.ProductoId,
-                        SubTotal=item.SubTotal_temp
-                    };                    
-                    _context.DetalleFactura.AddRange(_detalleFactura);
-                    _context.SaveChanges();
+                //Guardar en Modelo Factura
+                var _factura = new Factura
+                {                
+                    TotalPrecio = _totalFactura,
+                    EstadoFactura = 1,
+                    ClienteId = _nitTemPro.IdCliente_temp,
+                    FechaFactura=FechaSistema
+                };
+                _context.Factura.Add(_factura);
+                _context.SaveChanges();
+
+                //Guardar Rango de registros en Modelo: DetalleFactura
+                if (!tempPro.Count.Equals(0))
+                {
+                    foreach (var item in tempPro)
+                    {                    
+                        //Guarda en Modelo Detalle Factura
+                        var _detalleFactura = new DetalleFactura
+                        {
+                            Cantidad = item.Cantidad_temp,
+                            PrecioVenta = item.PrecioVenta_temp,
+                            FacturaId=_factura.FacturaId,// El ID, Lo he tomado como el numero de factura
+                            ProductoId = item.ProductoId,
+                            SubTotal=item.SubTotal_temp
+                        };                    
+                        _context.DetalleFactura.AddRange(_detalleFactura);
+                        _context.SaveChanges();
+                    }
                 }
+                //Elimina los registros del modelo: TempProducto            
+                var x = (from y in _context.TempProducto
+                         select y).ToList();
+                _context.TempProducto.RemoveRange(x);
+                _context.SaveChanges();
+
+                return RedirectToAction(nameof(BuscarProducto));
             }
+            else
+            {
+                TempData["messageNoFactura"] = "No se puede crear Factura sin registros";
+
+                return RedirectToAction(nameof(Index));
+            }
+        }
+
+        //Anular factura
+        public IActionResult AnularFactura()
+        {
             //Elimina los registros del modelo: TempProducto            
             var x = (from y in _context.TempProducto
                      select y).ToList();
             _context.TempProducto.RemoveRange(x);
             _context.SaveChanges();
 
-            return RedirectToAction(nameof(BuscarProducto));
+            return RedirectToAction(nameof(Index));
         }
     }
 }

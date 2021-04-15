@@ -24,12 +24,15 @@
 </div>
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-12">
         <div class="col-md-3">
             <a class="btn btn-dark" id="btnNitCliente" asp-area="" asp-controller="TemporalProducto" asp-action="GuardarFactura">Guardar Factura</a>
         </div>
         <div class="col-md-3">
             <a class="btn bg-success " asp-action="BuscarProducto">Agregar más producto</a>
+        </div>
+        <div class="col-md-3">
+            <a class="btn bg-danger " asp-action="AnularFactura">Anular Factura</a>
         </div>
     </div>
 </div>
@@ -82,7 +85,17 @@
         </tr>
     </thead>
 </table>
-
+<div>
+    @if (TempData["messageNoFactura"] != null)
+    {
+        <div class="alert alert-warning alert-dismissible fase show" role="alert">
+            @TempData["messageNoFactura"]
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+</div>
 
 @*Script lado del cliente mostrar Valor TOTAL Factura*@
 <script>
