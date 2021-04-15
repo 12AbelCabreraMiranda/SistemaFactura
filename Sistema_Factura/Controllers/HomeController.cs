@@ -19,30 +19,7 @@ namespace Sistema_Factura.Controllers
 
         public IActionResult Index()
         {
-            //Consulta de los registros en el Modelo: TempProducto
-            var tempPro = (from p in _context.TempProducto                           
-                          select p).ToList();
-
-            if (!tempPro.Count.Equals(0))
-            {
-                foreach (var item in tempPro)
-                {                    
-                    var guardarFactura = new Test
-                    {                        
-                        Cantidad = item.Cantidad_temp,
-                        PrecioVenta = item.PrecioVenta_temp,
-                        ProductoId = item.ProductoId
-                    };
-                    //Guarda en Modelo Factura y detalle
-                    _context.Test.AddRange(guardarFactura);
-                    _context.SaveChanges();                    
-                }                
-            }
-            //Elimina los registros del modelo Temporal            
-            var x = (from y in _context.TempProducto
-                     select y).ToList();
-            _context.TempProducto.RemoveRange(x);
-            _context.SaveChanges();
+            
 
             return View();
         }

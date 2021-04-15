@@ -13,7 +13,7 @@ namespace Sistema_Factura.Models
         [Key]
         public int ClienteId { get; set; }
         public string NombreCliente { get; set; }
-        public int Nit { get; set; }
+        public string Nit { get; set; }
 
         //Relacion con Modelo: Factura
         public List<Factura> Factura { get; set; }

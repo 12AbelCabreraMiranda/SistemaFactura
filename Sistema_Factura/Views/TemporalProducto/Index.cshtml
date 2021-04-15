@@ -1,0 +1,45 @@
+﻿@model List<Sistema_Factura.Models.TempProducto>
+
+@{
+    ViewData["Title"] = "Index";
+
+}
+
+<h1 class="text-center">Factura</h1>
+<a class="btn btn-dark" asp-area="" asp-controller="TemporalProducto" asp-action="GuardarFactura">Guardar Factura</a>
+<br /><br />
+@*Productos agregados*@
+<table class="table">
+    <thead>
+        <tr>
+            <th>CODIGO</th>
+            <th>NOMBRE</th>
+            <th>CANTIDAD</th>
+            <th>PRECIO UNITARIO</th>
+            <th>SUBTORAL</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Producto.CodigoProducto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Producto.NombreProducto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cantidad_temp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrecioVenta_temp)
+            </td>
+
+        </tr>
+        }
+    </tbody>
+    
+</table>
+<tr>TOTAL: Q. @ViewBag.totalF </tr>

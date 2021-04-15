@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Sistema_Factura.DataContext;
 
 namespace Sistema_Factura.Migrations
 {
     [DbContext(typeof(Sistema_FacturaContext))]
-    partial class Sistema_FacturaContextModelSnapshot : ModelSnapshot
+    [Migration("20210414222501_alter_modelo_cliente")]
+    partial class alter_modelo_cliente
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,8 +80,8 @@ namespace Sistema_Factura.Migrations
                     b.Property<int>("EstadoFactura")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("FechaFactura")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("NumeroFactura")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("TotalPrecio")
                         .HasColumnType("decimal(18,2)");

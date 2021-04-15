@@ -433,3 +433,4 @@ C:\Users\Abel\Documents\Visual Studio 2019\Projects\Sistema_Factura\Sistema_Fact
 C:\Users\Abel\Documents\Visual Studio 2019\Projects\Sistema_Factura\Sistema_Factura\obj\Debug\net5.0\Razor\Views\Producto\NuevoProducto.cshtml.g.cs
 C:\Users\Abel\Documents\Visual Studio 2019\Projects\Sistema_Factura\Sistema_Factura\obj\Debug\net5.0\Razor\Views\TemporalProducto\BuscarProducto.cshtml.g.cs
 C:\Users\Abel\Documents\Visual Studio 2019\Projects\Sistema_Factura\Sistema_Factura\obj\Debug\net5.0\Razor\Views\TemporalProducto\_ProductosAddTem.cshtml.g.cs
+C:\Users\Abel\Documents\Visual Studio 2019\Projects\Sistema_Factura\Sistema_Factura\obj\Debug\net5.0\Razor\Views\TemporalProducto\Index.cshtml.g.cs

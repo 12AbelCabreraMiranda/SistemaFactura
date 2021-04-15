@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Sistema_Factura.DataContext;
 
 namespace Sistema_Factura.Migrations
 {
     [DbContext(typeof(Sistema_FacturaContext))]
-    partial class Sistema_FacturaContextModelSnapshot : ModelSnapshot
+    [Migration("20210414231258_alter_modelo_factura2")]
+    partial class alter_modelo_factura2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
