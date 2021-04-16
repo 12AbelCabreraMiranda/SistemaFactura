@@ -83,7 +83,7 @@ namespace Sistema_Factura.Controllers
         {
             //Query para obtener Id del nitCliente.
             var _nitCliente_temp = _context.Cliente.Where(n => n.Nit.Equals(agregarProductoModel.NitCliente_temp)).FirstOrDefault();
-            var _validar_nit = _context.Cliente.FirstOrDefault();
+            
 
             //Procedimiento para los subtotales de los productos
             var _subTotal = agregarProductoModel.PrecioProductoCompra * agregarProductoModel.Cantidad;
@@ -109,7 +109,9 @@ namespace Sistema_Factura.Controllers
                     //Validación si existe registros
                     if (validarNit == null)
                     {
-                        if (!_validar_nit.Nit.Equals(agregarProductoModel.NitCliente_temp))
+                        var _validar_nit = _context.Cliente.Where(c=>c.Nit.Equals(agregarProductoModel.NitCliente_temp)).ToList();
+                        
+                        if (_validar_nit.Count.Equals(0))
                         {
                             TempData["messageNitInvalido"] = "El nit no existe en nuestro sistema";
                             return RedirectToAction(nameof(BuscarProducto));
