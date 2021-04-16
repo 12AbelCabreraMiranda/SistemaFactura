@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ClosedXML.Excel;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+
 using Sistema_Factura.DataContext;
 using Sistema_Factura.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,6 +17,7 @@ namespace Sistema_Factura.Controllers
         private readonly Sistema_FacturaContext _context;
         public FacturasController(Sistema_FacturaContext context) => _context = context;
 
+        
         //Método para listar las facturas
         public async Task<IActionResult> Facturas(string buscarNit, string fechaInicio, string fechaFin)
         {
@@ -81,5 +85,7 @@ namespace Sistema_Factura.Controllers
             return View(await _detalleFactura.Include(c => c.Factura).Include(p=>p.Producto).ToListAsync());
             //return View(await _context.DetalleFactura.Include(c => c.Factura).Include(p => p.Producto).ToListAsync());
         }
+
+        
     }
 }
