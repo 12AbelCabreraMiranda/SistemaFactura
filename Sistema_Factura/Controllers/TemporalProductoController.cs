@@ -18,11 +18,11 @@ namespace Sistema_Factura.Controllers
 
         //public static decimal totalFact=0;
         public async Task<IActionResult> IndexAsync()
-        {            
-            var tempP = from t in _context.TempProducto                              
-                              select t;
-            
-            return View(await tempP.Include(p=>p.Producto).ToListAsync());
+        {
+            var tempP = from t in _context.TempProducto
+                        select t;
+
+            return View(await tempP.Include(p => p.Producto).ToListAsync());
         }
         public IActionResult BuscarProducto()
         {
@@ -33,21 +33,21 @@ namespace Sistema_Factura.Controllers
         //Metodo buscar producto para agregar a la Factura
         public IActionResult BuscarProducto(int CodigoProd)
         {
-            
+
             if (ModelState.IsValid)
             {
 
                 //Buscar codigo producto
                 var _buscarProducto = (from p in _context.Producto
-                                      where p.CodigoProducto == CodigoProd
+                                       where p.CodigoProducto == CodigoProd
 
-                                      select new AgregarProducto
-                                      {
-                                          ProductoId = p.ProductoId,
-                                          NombreProducto = p.NombreProducto,
-                                          CodigoProducto = p.CodigoProducto,
-                                          PrecioProductoCompra = p.PrecioProductoCompra
-                                      }).ToList();
+                                       select new AgregarProducto
+                                       {
+                                           ProductoId = p.ProductoId,
+                                           NombreProducto = p.NombreProducto,
+                                           CodigoProducto = p.CodigoProducto,
+                                           PrecioProductoCompra = p.PrecioProductoCompra
+                                       }).ToList();
 
                 //Consultar producto si existe
                 var _buscarCodigoProducto = _context.Producto.Where(c => c.CodigoProducto.Equals(CodigoProd)).FirstOrDefault();
@@ -74,16 +74,16 @@ namespace Sistema_Factura.Controllers
                     TempData["messageNoCodigoProducto"] = "No hay producto registrado con el código ingresado";
                 }
 
-                
+
             }
             return View();
         }
         [HttpPost]
-        public IActionResult AgregarProducto( AgregarProducto agregarProductoModel)
+        public IActionResult AgregarProducto(AgregarProducto agregarProductoModel)
         {
             //Query para obtener Id del nitCliente.
             var _nitCliente_temp = _context.Cliente.Where(n => n.Nit.Equals(agregarProductoModel.NitCliente_temp)).FirstOrDefault();
-            
+            var _validar_nit = _context.Cliente.FirstOrDefault();
 
             //Procedimiento para los subtotales de los productos
             var _subTotal = agregarProductoModel.PrecioProductoCompra * agregarProductoModel.Cantidad;
@@ -95,10 +95,10 @@ namespace Sistema_Factura.Controllers
             }
             else
             {
-                if (agregarProductoModel.PrecioProductoCompra==0)
+                if (agregarProductoModel.PrecioProductoCompra == 0)
                 {
                     TempData["messageSinRegistros"] = "Debe agregar registro de un producto";
-                    
+
                     return RedirectToAction(nameof(BuscarProducto));
                 }
                 else
@@ -109,16 +109,25 @@ namespace Sistema_Factura.Controllers
                     //Validación si existe registros
                     if (validarNit == null)
                     {
-                        var add_tempProducto = new TempProducto()
+                        if (!_validar_nit.Nit.Equals(agregarProductoModel.NitCliente_temp))
                         {
-                            Cantidad_temp = agregarProductoModel.Cantidad,
-                            PrecioVenta_temp = agregarProductoModel.PrecioProductoCompra,
-                            ProductoId = agregarProductoModel.ProductoId,
-                            SubTotal_temp = _subTotal,
-                            IdCliente_temp = _nitCliente_temp.ClienteId
-                        };
-                        _context.TempProducto.Add(add_tempProducto);
-                        _context.SaveChanges();
+                            TempData["messageNitInvalido"] = "El nit no existe en nuestro sistema";
+                            return RedirectToAction(nameof(BuscarProducto));
+                        }
+                        else
+                        {
+
+                            var add_tempProducto = new TempProducto()
+                            {
+                                Cantidad_temp = agregarProductoModel.Cantidad,
+                                PrecioVenta_temp = agregarProductoModel.PrecioProductoCompra,
+                                ProductoId = agregarProductoModel.ProductoId,
+                                SubTotal_temp = _subTotal,
+                                IdCliente_temp = _nitCliente_temp.ClienteId
+                            };
+                            _context.TempProducto.Add(add_tempProducto);
+                            _context.SaveChanges();
+                        }
                     }
                     else
                     {
@@ -138,7 +147,7 @@ namespace Sistema_Factura.Controllers
                             _context.SaveChanges();
                         }
                         else
-                        {                            
+                        {
                             TempData["messageNitDiferente"] = "Hay una factura Pendiente. Vender la Factura pendiente para poder" +
                                 " crear una nueva Factura.";
 
@@ -147,13 +156,13 @@ namespace Sistema_Factura.Controllers
                     }
                 }
             }
-           
             return RedirectToAction(nameof(Index));
+
         }
 
         //Se crea la factura con los productos vendidos
         public IActionResult GuardarFactura()
-        {           
+        {
             //Consulta de los registros en el Modelo: TempProducto
             var tempPro = (from p in _context.TempProducto
                            select p).ToList();
@@ -162,7 +171,7 @@ namespace Sistema_Factura.Controllers
 
             //Obtener suma Total de los productos a vender de la factura
             var _totalFactura = (from s in _context.TempProducto
-                               select s.SubTotal_temp).Sum();
+                                 select s.SubTotal_temp).Sum();
 
             //Fecha del sistema
             DateTime FechaSistema = System.DateTime.Now;
@@ -171,11 +180,11 @@ namespace Sistema_Factura.Controllers
             {
                 //Guardar en Modelo Factura
                 var _factura = new Factura
-                {                
-                    TotalPrecio = _totalFactura,                    
+                {
+                    TotalPrecio = _totalFactura,
                     ClienteId = _nitTemPro.IdCliente_temp,
-                    FechaFactura=FechaSistema,
-                    EstadoFactura=1
+                    FechaFactura = FechaSistema,
+                    EstadoFactura = 1
                 };
                 _context.Factura.Add(_factura);
                 _context.SaveChanges();
@@ -184,16 +193,16 @@ namespace Sistema_Factura.Controllers
                 if (!tempPro.Count.Equals(0))
                 {
                     foreach (var item in tempPro)
-                    {                    
+                    {
                         //Guarda en Modelo Detalle Factura
                         var _detalleFactura = new DetalleFactura
                         {
                             Cantidad = item.Cantidad_temp,
                             PrecioVenta = item.PrecioVenta_temp,
-                            FacturaId=_factura.FacturaId,// El ID, Lo he tomado como el numero de factura
+                            FacturaId = _factura.FacturaId,// El ID, Lo he tomado como el numero de factura
                             ProductoId = item.ProductoId,
-                            SubTotal=item.SubTotal_temp                            
-                        };                    
+                            SubTotal = item.SubTotal_temp
+                        };
                         _context.DetalleFactura.AddRange(_detalleFactura);
                         _context.SaveChanges();
                     }
