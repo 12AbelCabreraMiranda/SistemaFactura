@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Sistema_Factura.Models.Cliente>
+
+@{
+    ViewData["Title"] = "Cliente";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="text-center">Clientes Registrado en el Sistema</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-outline-success">Create New</a>
+</p>
+<table class="table">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NombreCliente)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Nit)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreCliente)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nit)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="alert alert-warning" role="alert" style="margin-top:20px">
+    <b>NOTA: </b>
+    <p>El sistema solo reconocerá a los clientes registrados, de lo contrario el nit solo puede ser validado, pero no mostaría algún nombre si no está registado dicho NIT en nuestro sistema..</p>
+
+    <p>VALIDACIÓN DE NIT: Un número de Nit es válido cuando el borde del campo de texto es color Verde. De lo contrario el borde es color Rojo</p>
+</div>

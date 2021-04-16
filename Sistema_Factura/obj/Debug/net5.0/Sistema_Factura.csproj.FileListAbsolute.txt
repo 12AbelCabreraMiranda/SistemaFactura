@@ -440,3 +440,4 @@ C:\Users\Abel\Documents\Visual Studio 2019\Projects\Sistema_Factura\Sistema_Fact
 C:\Users\Abel\Documents\Visual Studio 2019\Projects\Sistema_Factura\Sistema_Factura\bin\Debug\net5.0\DocumentFormat.OpenXml.dll
 C:\Users\Abel\Documents\Visual Studio 2019\Projects\Sistema_Factura\Sistema_Factura\bin\Debug\net5.0\ExcelNumberFormat.dll
 C:\Users\Abel\Documents\Visual Studio 2019\Projects\Sistema_Factura\Sistema_Factura\bin\Debug\net5.0\System.IO.Packaging.dll
+C:\Users\Abel\Documents\Visual Studio 2019\Projects\Sistema_Factura\Sistema_Factura\obj\Debug\net5.0\Razor\Views\Cliente\Cliente.cshtml.g.cs
