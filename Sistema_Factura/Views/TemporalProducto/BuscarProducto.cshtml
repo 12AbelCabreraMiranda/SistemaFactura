@@ -4,7 +4,7 @@
     ViewData["Title"] = "BuscarProducto";
 }
 <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+@*<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>*@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <h1 class="text-center">Agregar Productos a Factura</h1>
@@ -13,26 +13,29 @@
 
 @*Buscar código producto*@
 <form asp-controller="TemporalProducto" asp-action="BuscarProducto">
+        <div class="row">
     <div class="container">
-        <div class="form-row">
-            <div class="col-md-4  float-right">
-                <p>
-                    <input placeholder="Codigo producto" asp-for="CodigoProducto" type="number" name="CodigoProd" />
-                    <span asp-validation-for="CodigoProducto" class="text-danger"></span>
-                    <input class="btn btn-success mb-2" type="submit" value="Buscar" />
-                </p>
-                <div>
-                    @if (TempData["messageNoCodigoProducto"] != null)
-                    {
-                        <div class="alert alert-warning alert-dismissible fase show" role="alert">
-                            @TempData["messageNoCodigoProducto"]
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <p>
+                            <input placeholder="Codigo producto" asp-for="CodigoProducto" type="number" name="CodigoProd" />
+                            <span asp-validation-for="CodigoProducto" class="text-danger"></span>
+                            <input class="btn btn-success" type="submit" value="Buscar" />
+                        </p>
+                        <div>
+                            @if (TempData["messageNoCodigoProducto"] != null)
+                            {
+                                <div class="alert alert-warning alert-dismissible fase show" role="alert">
+                                    @TempData["messageNoCodigoProducto"]
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            }
                         </div>
-                    }
-                </div>
-
+                    </div>
+                </div>                
             </div>
         </div>
     </div>
@@ -43,27 +46,33 @@
     @*Buscar Nit*@
     <div class="row">
         <div class="container">
-            <label for="nit" class="control-label">Nit:</label>
-            <div class="form-inline has-feedback">
-                <input type="text" required asp-for="NitCliente_temp" id="nit" class="form-control mr-2 mb-2" placeholder="Nit" /><a class="btn btn-info" id="btnBuscar">Buscar</a>
-                <span class="glyphicon form-control-feedback"></span>
-            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <label for="nit" class="control-label">Nit:</label>
+                        <div class="form-inline has-feedback">
+                            <input type="text" required asp-for="NitCliente_temp" id="nit" class="form-control mr-2 mb-2" placeholder="Nit" /><a class="btn btn-info" id="btnBuscar">Buscar</a>
+                            <span class="glyphicon form-control-feedback"></span>
+                        </div>
 
-            @*Show Nit encontrado*@
-            <div class="alert alert-warning" role="alert">
-                NOMBRE CLIENTE: <a href="#" id="txtNombreCliente" class="alert-link"> Cliente</a>.
-            </div>
-            <div>
-                @if (TempData["messageNitInvalido"] != null)
-                {
-                    <div class="alert alert-danger alert-dismissible fase show" role="alert">
-                        @TempData["messageNitInvalido"]
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        @*Show Nit encontrado*@
+                        <div class="alert alert-warning" role="alert">
+                            NOMBRE CLIENTE: <a href="#" id="txtNombreCliente" class="alert-link"> Cliente</a>.
+                        </div>
+                        <div>
+                            @if (TempData["messageNitInvalido"] != null)
+                            {
+                                <div class="alert alert-danger alert-dismissible fase show" role="alert">
+                                    @TempData["messageNitInvalido"]
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            }
+                        </div>
                     </div>
-                }
-            </div>
+                </div>
+            </div>            
         </div>
     </div>
 
@@ -131,7 +140,7 @@
             <input type="submit" value="Guardar" class=" form-control btn btn-primary" />
         </div>
         <div class="col-md-4">
-            <a class="btn btn-dark form-control" asp-action="Index">Ver Factura</a>
+            <a class="btn btn-success form-control" asp-action="Index">Ver Factura</a>
         </div>
     </div>
         <div class="alert alert-info" role="alert" style="margin-top:20px">
@@ -216,19 +225,19 @@
 
         if (nit && nitIsValid(nit)) {
             $parent.addClass('has-success');
-            $next.addClass('glyphicon-ok');
+            //$next.addClass('glyphicon-ok');
             $parent.removeClass('has-error');
-            $next.removeClass('glyphicon-remove');
+            //$next.removeClass('glyphicon-remove');
         } else if (nit) {
             $parent.addClass('has-error');
-            $next.addClass('glyphicon-remove');
+            //$next.addClass('glyphicon-remove');
             $parent.removeClass('has-success');
-            $next.removeClass('glyphicon-ok');
+            //$next.removeClass('glyphicon-ok');
         } else {
             $parent.removeClass('has-error');
-            $next.removeClass('glyphicon-remove');
+            //$next.removeClass('glyphicon-remove');
             $parent.removeClass('has-success');
-            $next.removeClass('glyphicon-ok');
+            //$next.removeClass('glyphicon-ok');
         }
     });
 </script>

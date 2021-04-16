@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+@*<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>*@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <h1 class="text-center">Registrar Cliente</h1>
@@ -90,19 +90,19 @@
 
         if (nit && nitIsValid(nit)) {
             $parent.addClass('has-success');
-            $next.addClass('glyphicon-ok');
+            //$next.addClass('glyphicon-ok');
             $parent.removeClass('has-error');
-            $next.removeClass('glyphicon-remove');
+            //$next.removeClass('glyphicon-remove');
         } else if (nit) {
             $parent.addClass('has-error');
-            $next.addClass('glyphicon-remove');
+            //$next.addClass('glyphicon-remove');
             $parent.removeClass('has-success');
-            $next.removeClass('glyphicon-ok');
+            //$next.removeClass('glyphicon-ok');
         } else {
             $parent.removeClass('has-error');
-            $next.removeClass('glyphicon-remove');
+            //$next.removeClass('glyphicon-remove');
             $parent.removeClass('has-success');
-            $next.removeClass('glyphicon-ok');
+            //$next.removeClass('glyphicon-ok');
         }
     });
 </script>
