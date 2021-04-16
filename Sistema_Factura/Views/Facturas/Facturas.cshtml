@@ -37,7 +37,7 @@
 
 <table class="table table-bordered">
     <thead class="thead-dark">
-        <tr>             
+        <tr>
             <th>
                 FECHA
             </th>
@@ -56,25 +56,28 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>               
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaFactura)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cliente.NombreCliente)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cliente.Nit)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TotalPrecio)
-            </td>
-            <td>
-                <a asp-action="DetalleFactura" asp-route-id="@item.FacturaId" class="btn btn-outline-warning">Detalle</a> |
-                <a asp-action="EliminarFactura" asp-route-id="@item.FacturaId" class="btn btn-outline-secondary">Eliminar</a>
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FechaFactura)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cliente.NombreCliente)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cliente.Nit)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TotalPrecio)
+                </td>
+                <td>
+                    <a asp-action="DetalleFactura" asp-route-id="@item.FacturaId" class="btn btn-outline-warning">Detalle</a> |
+                    <a asp-action="EliminarFactura" asp-route-id="@item.FacturaId" class="btn btn-outline-secondary">Eliminar</a>
+
+                </td>
+            </tr>
         }
     </tbody>
 </table>
 <a asp-controller="ExportarExcel" asp-action="ExportarExcel" class="btn btn-outline-success">Exporta a Excel</a>
+
+

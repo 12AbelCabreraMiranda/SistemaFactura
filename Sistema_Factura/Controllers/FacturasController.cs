@@ -17,7 +17,7 @@ namespace Sistema_Factura.Controllers
         private readonly Sistema_FacturaContext _context;
         public FacturasController(Sistema_FacturaContext context) => _context = context;
 
-        
+
         //Método para listar las facturas
         public async Task<IActionResult> Facturas(string buscarNit, string fechaInicio, string fechaFin)
         {
@@ -71,21 +71,76 @@ namespace Sistema_Factura.Controllers
             return RedirectToAction(nameof(Facturas));
         }
 
+
+
         //Método detalles facturas
         public async Task<IActionResult> DetalleFactura(int id)
         {
             var _detalleFactura = from d in _context.DetalleFactura
                                   join f in _context.Factura on d.FacturaId equals f.FacturaId
                                   join p in _context.Producto on d.ProductoId equals p.ProductoId
-                                  
+
                                   select d;
 
             _detalleFactura = _detalleFactura.Where(d => d.FacturaId.Equals(id));
 
-            return View(await _detalleFactura.Include(c => c.Factura).Include(p=>p.Producto).ToListAsync());
+            return View(await _detalleFactura.Include(c => c.Factura).Include(p => p.Producto).ToListAsync());
             //return View(await _context.DetalleFactura.Include(c => c.Factura).Include(p => p.Producto).ToListAsync());
         }
 
-        
+        //METODOS PARA OBTENER DATOS DETALLADOS DEL CLIENTE
+        [HttpPost]
+        public JsonResult NumeroFactura(int FacturaHide)
+        {
+            var _numeroFactura = (from f in _context.Factura
+
+                                  where f.FacturaId == FacturaHide
+                                  select f.FacturaId).FirstOrDefault();
+
+            return Json(_numeroFactura);
+        }
+
+        //Obtener el nombre del cliente
+        [HttpPost]
+        public JsonResult NombreClienteFactura(int FacturaHide)
+        {
+            var _NombreClienteF = (from f in _context.Factura
+                                   join c in _context.Cliente
+                                   on f.ClienteId equals c.ClienteId
+
+                                   where f.FacturaId == FacturaHide
+                                   select c.NombreCliente).FirstOrDefault();
+
+            return Json(_NombreClienteF);
+        }
+
+        //Obtener el Nit del cliente
+        [HttpPost]
+        public JsonResult NitClienteFactura(int FacturaHide)
+        {
+            var _nitClienteFactura = (from f in _context.Factura
+                                      join c in _context.Cliente
+                                      on f.ClienteId equals c.ClienteId
+
+                                      where f.FacturaId == FacturaHide
+                                      select c.Nit).FirstOrDefault();
+
+            return Json(_nitClienteFactura);
+        }
+
+        //Obtener el valor Total vendido de factura del cliente
+        [HttpPost]
+        public JsonResult TotalFactura(int FacturaHide)
+        {
+            var _totalFactura = (from f in _context.Factura
+                                 join c in _context.Cliente
+                                 on f.ClienteId equals c.ClienteId
+
+                                 where f.FacturaId == FacturaHide
+                                 select f.TotalPrecio).FirstOrDefault();
+
+            return Json(_totalFactura);
+        }
+
     }
 }

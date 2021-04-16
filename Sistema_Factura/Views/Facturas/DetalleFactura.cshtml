@@ -4,9 +4,34 @@
     ViewData["Title"] = "DetalleFactura";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-<h1 class="text-center">DetalleFactura</h1>
+<hr />
+@foreach (var item in Model)
+{
+    <p style="display:none" id="idFacturaHide">@Html.DisplayFor(modelItem => item.FacturaId)</p>
 
+}
+
+<div class="row">
+    <div class="container">
+        <div class="col-md-4 float-lg-right">
+            <div class="alert alert-warning" role="alert" style="font-size:18px">
+                FACTURA No. 000<a href="#" id="mostrarFactura" class="alert-link"> Numero de Factura</a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="alert alert-success" role="alert">
+                NOMBRE CLIENTE: <a href="#" id="nombreClienteFactura" class="alert-link"> Numero de Factura</a>.
+                NIT CLIENTE: <a href="#" id="nitClienteFactura" class="alert-link"> Nit del Cliente</a>.
+            </div>
+        </div>
+    </div>
+</div>
+
+@*Tabla de datos de Facturas de clientes*@
 <table class="table table-bordered">
     <thead class="thead-dark">
         <tr>
@@ -26,33 +51,116 @@
                 @Html.DisplayNameFor(model => model.Factura)
             </th>
 
-            <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cantidad)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Producto.NombreProducto)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PrecioVenta)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SubTotal)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Factura.FacturaId)
-            </td>
-
-
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cantidad)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Producto.NombreProducto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PrecioVenta)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SubTotal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Factura.FacturaId)
+                </td>
+            </tr>
+        }
     </tbody>
+    <thead>
+        <tr>
+            <td colspan="3"></td>
+            <th style="padding-top:20px"><b style="font-size: 20px">TOTAL:</b></th>
+            <th style="padding-top:20px"><b style="font-size: 20px">Q. <label id="totalValorFactura"></label></b></th>
+        </tr>
+    </thead>
 </table>
 <div>
     <a asp-action="Facturas" class="btn btn-outline-dark">Regresar</a>
 </div>
+
+
+@*NUMERO DE FACTURA*@
+<script>
+    var url = "@Url.Action("NumeroFactura", "Facturas")";
+    var facturaHide = document.getElementById("idFacturaHide").innerHTML;
+
+    var data = { facturaHide: facturaHide };
+
+    //jQuery
+    $.post(url, data).done(function (data) {
+        //Se ejecuta si la operacion fue un éxito
+        $("#mostrarFactura").html(data);
+    }).fail(manejarErrorAjax).always(function () {
+        //Esta funcion siempre se ejecuta
+    });
+
+    function manejarErrorAjax(err) {
+    console.log(err.responseText);
+    }
+</script>
+
+@*NOMBRE DEL CLIENTE PARA LA FACTURA DETALLE*@
+<script>
+    var url = "@Url.Action("NombreClienteFactura", "Facturas")";
+    var facturaHide = document.getElementById("idFacturaHide").innerHTML;
+    var data = { facturaHide: facturaHide };
+
+    //jQuery
+    $.post(url, data).done(function (data) {
+        //Se ejecuta si la operacion fue un éxito
+        $("#nombreClienteFactura").html(data);
+    }).fail(manejarErrorAjax).always(function () {
+        //Esta funcion siempre se ejecuta
+    });
+
+    function manejarErrorAjax(err) {
+    console.log(err.responseText);
+    }
+</script>
+
+
+@*NIT DEL CLIENTE PARA LA FACTURA DETALLE*@
+<script>
+    var url = "@Url.Action("NitClienteFactura", "Facturas")";
+    var facturaHide = document.getElementById("idFacturaHide").innerHTML;
+    var data = { facturaHide: facturaHide };
+
+    //jQuery
+    $.post(url, data).done(function (data) {
+        //Se ejecuta si la operacion fue un éxito
+        $("#nitClienteFactura").html(data);
+    }).fail(manejarErrorAjax).always(function () {
+        //Esta funcion siempre se ejecuta
+    });
+
+    function manejarErrorAjax(err) {
+    console.log(err.responseText);
+    }
+</script>
+@*TOTAL DE LA FACTURA DE DETALLE*@
+<script>
+    var url = "@Url.Action("TotalFactura", "Facturas")";
+    var facturaHide = document.getElementById("idFacturaHide").innerHTML;
+    var data = { facturaHide: facturaHide };
+
+    //jQuery
+    $.post(url, data).done(function (data) {
+        //Se ejecuta si la operacion fue un éxito
+        $("#totalValorFactura").html(data);
+    }).fail(manejarErrorAjax).always(function () {
+        //Esta funcion siempre se ejecuta
+    });
+
+    function manejarErrorAjax(err) {
+    console.log(err.responseText);
+    }
+</script>
