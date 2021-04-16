@@ -15,9 +15,6 @@ namespace Sistema_Factura.Controllers
     {
         private readonly Sistema_FacturaContext _context;
         public ExportarExcelController(Sistema_FacturaContext context) => _context = context;
-
-        //private List<Factura> _factura = new List<Factura>();
-
         
         public IActionResult Index()
         {
@@ -56,8 +53,7 @@ namespace Sistema_Factura.Controllers
                         return File(content,
                             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                             "FacturaInfo.xlsx");
-                    }
-                
+                    }                
                 }
             }
             return View();
