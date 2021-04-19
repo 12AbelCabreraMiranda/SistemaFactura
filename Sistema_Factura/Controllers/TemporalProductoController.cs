@@ -17,7 +17,7 @@ namespace Sistema_Factura.Controllers
         public TemporalProductoController(Sistema_FacturaContext context) => _context = context;
 
         //public static decimal totalFact=0;
-        public async Task<IActionResult> IndexAsync()
+        public async Task<IActionResult> Index()
         {
             var tempP = from t in _context.TempProducto
                         select t;
@@ -30,13 +30,11 @@ namespace Sistema_Factura.Controllers
         }
 
         [HttpPost]
-        //Metodo buscar producto para agregar a la Factura
+        //BUSCA CODIGO DE PRODUCTO
         public IActionResult BuscarProducto(int CodigoProd)
         {
-
             if (ModelState.IsValid)
             {
-
                 //Buscar codigo producto
                 var _buscarProducto = (from p in _context.Producto
                                        where p.CodigoProducto == CodigoProd
@@ -73,8 +71,6 @@ namespace Sistema_Factura.Controllers
                 {
                     TempData["messageNoCodigoProducto"] = "No hay producto registrado con el código ingresado";
                 }
-
-
             }
             return View();
         }
@@ -158,7 +154,7 @@ namespace Sistema_Factura.Controllers
                     }
                 }
             }
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(BuscarProducto));
 
         }
 
@@ -235,6 +231,13 @@ namespace Sistema_Factura.Controllers
             _context.SaveChanges();
 
             return RedirectToAction(nameof(Index));
+        }
+
+        //MUESTRA LOS PRODUCTOS AGREGADOS EN: DATATABLE
+        public PartialViewResult MostrarFactura()
+        {
+            var temp = _context.TempProducto.Include(p => p.Producto).ToList();
+            return PartialView("_TempProducto", temp);
         }
     }
 }

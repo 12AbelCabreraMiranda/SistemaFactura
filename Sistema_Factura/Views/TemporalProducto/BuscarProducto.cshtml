@@ -13,8 +13,8 @@
 
 @*Buscar código producto*@
 <form asp-controller="TemporalProducto" asp-action="BuscarProducto">
-        <div class="row">
-    <div class="container">
+    <div class="row">
+        <div class="container">
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
@@ -35,7 +35,7 @@
                             }
                         </div>
                     </div>
-                </div>                
+                </div>
             </div>
         </div>
     </div>
@@ -72,7 +72,7 @@
                         </div>
                     </div>
                 </div>
-            </div>            
+            </div>
         </div>
     </div>
 
@@ -143,21 +143,26 @@
             <a class="btn btn-success form-control" asp-action="Index">Ver Factura</a>
         </div>
     </div>
-        <div class="alert alert-info" role="alert" style="margin-top:20px">
-            <b>NOTA: </b>
-            <p>Escribir el mismo Nit para agregar más producto a la factura existente.</p>
-            
-            <p>VALIDACIÓN DE NIT: Un número de Nit es válido cuando el borde del campo de texto es color Verde. De lo contrario el borde es color Rojo</p>
-        </div>
+    <div class="alert alert-info" role="alert" style="margin-top:20px">
+        <b>NOTA: </b>
+        <p>Escribir el mismo Nit para agregar más producto a la factura existente.</p>
+
+        <p>VALIDACIÓN DE NIT: Un número de Nit es válido cuando el borde del campo de texto es color Verde. De lo contrario el borde es color Rojo</p>
+    </div>
 </form>
-@*Validación del lado del cliente*@
+
+@*CARGA TABLA DE DATOS*@
+<div id="dataTable" style="margin-bottom:100px"></div>
+<script src="~/js/DataTable.js"></script>
+
+@*VALIDACIÓN DE CAMPOS, LADO DEL CLIENTE*@
 @section Scripts{
     @{
         <partial name="_ValidationScriptsPartial" />
     }
 }
 
-@*Buscar Nit*@
+@*BUSCAR NIT*@
 <script>
     $(function () {
     $("#btnBuscar").click(function () {
@@ -182,7 +187,7 @@
     });
 </script>
 
-@*Algoritmo Validar Nit*@
+@*ALGORITMO QUE VALIDA NIT, SAT*@
 <script>
     function nitIsValid(nit) {
         if (!nit) {

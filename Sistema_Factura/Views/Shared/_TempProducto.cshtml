@@ -1,0 +1,45 @@
+﻿@model List<Sistema_Factura.Models.TempProducto>
+@*Tabla de los Productos agregados*@
+<table class="table table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th>CODIGO</th>
+            <th>NOMBRE</th>
+            <th>CANTIDAD</th>
+            <th>PRECIO UNITARIO</th>
+            <th>SUBTORAL</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Producto.CodigoProducto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Producto.NombreProducto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cantidad_temp)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PrecioVenta_temp)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SubTotal_temp)
+                </td>
+            </tr>
+        }
+
+
+    </tbody>
+    <thead>
+        <tr>
+            <td colspan="3"></td>
+            <th style="padding-top:20px"><b style="font-size: 20px">TOTAL:</b></th>
+            <th style="padding-top:20px"><b style="font-size: 20px">Q. <label id="total"></label></b></th>
+        </tr>
+    </thead>
+</table>
