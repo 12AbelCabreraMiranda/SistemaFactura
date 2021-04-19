@@ -75,6 +75,7 @@ namespace Sistema_Factura.Controllers
             return View();
         }
         [HttpPost]
+        //AGREGA PRODUCTOS A DATATABLE TEMPORAL
         public IActionResult AgregarProducto(AgregarProducto agregarProductoModel)
         {
             //Query para obtener Id del nitCliente.
@@ -158,7 +159,7 @@ namespace Sistema_Factura.Controllers
 
         }
 
-        //Se crea la factura con los productos vendidos
+        //CREA LA FACTURA
         public IActionResult GuardarFactura()
         {
             //Consulta de los registros en el Modelo: TempProducto
@@ -217,11 +218,11 @@ namespace Sistema_Factura.Controllers
             {
                 TempData["messageNoFactura"] = "No se puede crear Factura sin registros";
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(BuscarProducto));
             }
         }
 
-        //Anular factura
+        //ANULAR LOS PRODUCTOS TEMPORALES
         public IActionResult AnularFactura()
         {
             //Elimina los registros del modelo: TempProducto            
@@ -230,11 +231,11 @@ namespace Sistema_Factura.Controllers
             _context.TempProducto.RemoveRange(x);
             _context.SaveChanges();
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(BuscarProducto));
         }
 
         //MUESTRA LOS PRODUCTOS AGREGADOS EN: DATATABLE
-        public PartialViewResult MostrarFactura()
+        public PartialViewResult ProductosAgregados()
         {
             var temp = _context.TempProducto.Include(p => p.Producto).ToList();
             return PartialView("_TempProducto", temp);
