@@ -12,172 +12,183 @@
         <h3 class="text-center"><i class="bi bi-cart3"></i> Agregar Producto</h3>
     </header>
     <hr />
-    @*BUSCAR CODIGO DE PRODUCTO*@
-    <form asp-controller="TemporalProducto" asp-action="BuscarProducto">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="form-group row">
-                            <div class="col-md-8">
-                                <input placeholder="Codigo" class="form-control" asp-for="CodigoProducto" type="number" name="CodigoProd" />
-                            </div>
-                            <div class="col-md-4">
-                                <p>
-                                    @*id="CodigoProd"*@
-                                    <span asp-validation-for="CodigoProducto" class="text-danger"></span>
-                                    <span class="btn" style="border: 1px solid #757878;background: white;">
-                                        <i class="bi bi-search"></i>&nbsp;
-                                        <input id="btnBuscarProd" type="submit" value="Buscar" />
-                                    </span>
-                                </p>
-                            </div>
-                        </div>
-                        @*Mensaje de alerta*@
-                        <div>
-                            @if (TempData["messageNoCodigoProducto"] != null)
-                            {
-                                <div class="alert alert-warning alert-dismissible fase show" role="alert">
-                                    @TempData["messageNoCodigoProducto"]
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                            }
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
 
-
-    @*DATOS DEL PRODUCTO*@
-    <form asp-action="AgregarProducto" method="post" enctype="multipart/form-data">
-        <div class="row">
-            @*COLUMNA DATOS*@
-            <div class="col-md-7 float-left">
-                <input type="hidden" asp-for="ProductoId" />
-                <div class="form-row">
-
-                    <div class="form-group col-md-5 mb-3">
-                        <label asp-for="NombreProducto" class="col-form-label"></label>
-                        <input asp-for="NombreProducto" disabled class="form-control">
-                    </div>
-                    <div class="col-md-5 mb-3">
-                        <label asp-for="CodigoProducto" class="col-form-label"></label>
-                        <input asp-for="CodigoProducto" disabled class="form-control">
-                    </div>
-                    <div class="col-md-5">
-                        <label asp-for="PrecioProductoCompra" class="col-form-label"></label>
-                        <input asp-for="PrecioProductoCompra" disabled class="form-control">
-                        <input asp-for="PrecioProductoCompra" type="hidden" class="form-control">
-                    </div>
-                    <div class="col-md-5">
-                        <label asp-for="Cantidad" class="col-form-label"></label>
-                        <input asp-for="Cantidad" value="1" type="number" class="form-control">
-                    </div>
-                </div>
-            </div><br />
-
-            @*COLUMNA NIT*@
-            <div class="col-md-5 float-right">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="form-group row">
-                            <div class="col-md-8">
-                                <input type="text" required asp-for="NitCliente_temp" id="nit" class="form-control" placeholder="Nit" />
-                            </div>
-                            @*<label for="nit" class="control-label">Nit:</label>*@
-                            <div class="col-md-4">
-                                <a class="btn btn-outline-warning" id="btnBuscarNit">
-                                    <i class="bi bi-search"></i>&nbsp;Buscar
-                                </a>
-                            </div>
-                        </div>
-
-                        @*MUESTRA DATO DEL CLIENTE ENCONTRADO*@
-                        <div class="alert alert-warning" role="alert">
-                            NOMBRE CLIENTE: <a href="#" id="txtNombreCliente" class="alert-link"> Cliente</a>.
-                        </div>
-                        @*MENSAJE DE ALERTA*@
-                        <div>
-                            @if (TempData["messageNitInvalido"] != null)
-                            {
-                                <div class="alert alert-danger alert-dismissible fase show" role="alert">
-                                    @TempData["messageNitInvalido"]
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                            }
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            @*ALERTAS*@
-            <div>
-                @if (TempData["messageCantidad"] != null)
-                {
-                    <div class="alert alert-warning alert-dismissible fase show" role="alert">
-                        @TempData["messageCantidad"]
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                }
-            </div>
-
-            <div>
-                @if (TempData["messageSinRegistros"] != null)
-                {
-                    <div class="alert alert-danger alert-dismissible fase show" role="alert">
-                        @TempData["messageSinRegistros"]
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                }
-            </div>
-            <div>
-                @if (TempData["messageNitDiferente"] != null)
-                {
-                    <div class="alert alert-danger alert-dismissible fase show" role="alert">
-                        @TempData["messageNitDiferente"]
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                }
-            </div>
-            <div>
-                @if (TempData["messageNoFactura"] != null)
-                {
-                    <div class="alert alert-warning alert-dismissible fase show" role="alert">
-                        @TempData["messageNoFactura"]
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                }
-            </div>
-        </div>
-        @*COLUMNA BOTONES*@
-        <div class="row" style="margin-top:20px">
+    <div class="row">
+        @*COLUMNA DATOS*@
+        <div class="col-md-6">
             <div class="col-md-12">
-                <div class="float-right">
-                    <input type="submit" value="Agregar" id="btnAgregarProducto" class="btn btn-primary" />
-                    <a class="btn btn-outline-danger" asp-action="AnularFactura">
-                        <i class="bi bi-trash"></i>&nbsp; Anular
-                    </a>
-                    <a class="btn btn-outline-success" asp-area="" asp-controller="TemporalProducto" asp-action="GuardarFactura">
-                        <i class="bi bi-printer"></i>&nbsp; Vender
-                    </a>
-                </div>
+                @*BUSCAR CODIGO DE PRODUCTO*@
+                <form asp-controller="TemporalProducto" asp-action="BuscarProducto">
+
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="form-group row">
+                                <div class="col-md-8">
+                                    <input placeholder="Codigo" class="form-control" asp-for="CodigoProducto" type="number" name="CodigoProd" />
+                                </div>
+                                <div class="col-md-4">
+                                    <p>
+                                        @*id="CodigoProd"*@
+                                        <span asp-validation-for="CodigoProducto" class="text-danger"></span>
+                                        <span class="btn" style="border: 1px solid #757878;background: white;">
+                                            <i class="bi bi-search"></i>&nbsp;
+                                            <input id="btnBuscarProd" type="submit" value="Buscar" />
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                            @*Mensaje de alerta*@
+                            <div>
+                                @if (TempData["messageNoCodigoProducto"] != null)
+                                {
+                                    <div class="alert alert-warning alert-dismissible fase show" role="alert">
+                                        @TempData["messageNoCodigoProducto"]
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+
+                </form>
+            </div>
+
+            @*DATOS DEL PRODUCTO*@
+            <div class="col-md-12 float-left">
+                <form asp-action="AgregarProductoTemporal" method="post" enctype="multipart/form-data">
+                    <input type="hidden" asp-for="ProductoId" />
+                    <div class="form-row">
+
+                        <div class="form-group col-md- mb-3">
+                            <label asp-for="NombreProducto" class="col-form-label"></label>
+                            <input asp-for="NombreProducto" disabled class="form-control">
+                        </div>
+                        <div class="col-md- mb-3">
+                            <label asp-for="CodigoProducto" class="col-form-label"></label>
+                            <input asp-for="CodigoProducto" disabled class="form-control">
+                        </div>
+                        <div class="col-md-">
+                            <label asp-for="PrecioProductoCompra" class="col-form-label"></label>
+                            <input asp-for="PrecioProductoCompra" disabled class="form-control">
+                            <input asp-for="PrecioProductoCompra" type="hidden" class="form-control">
+                        </div>
+                        <div class="col-md-">
+                            <label asp-for="Cantidad" class="col-form-label"></label>
+                            <input asp-for="Cantidad" value="1" type="number" class="form-control">
+                        </div>
+                    </div>
+
+                    @*ALERTAS*@
+                    <div>
+                        @if (TempData["messageCantidad"] != null)
+                        {
+                            <div class="alert alert-warning alert-dismissible fase show" role="alert">
+                                @TempData["messageCantidad"]
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        }
+                    </div>
+
+                    <div>
+                        @if (TempData["messageSinRegistros"] != null)
+                        {
+                            <div class="alert alert-danger alert-dismissible fase show" role="alert">
+                                @TempData["messageSinRegistros"]
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        }
+                    </div>
+                    <div>
+                        @if (TempData["messageNitDiferente"] != null)
+                        {
+                            <div class="alert alert-danger alert-dismissible fase show" role="alert">
+                                @TempData["messageNitDiferente"]
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        }
+                    </div>
+                    <div>
+                        @if (TempData["messageNoFactura"] != null)
+                        {
+                            <div class="alert alert-warning alert-dismissible fase show" role="alert">
+                                @TempData["messageNoFactura"]
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        }
+                    </div>
+
+                    @*COLUMNA BOTONES*@                    
+                    <div class="col-md-12" style="margin-top:20px">
+                        <div class="float-left">
+                            <input type="submit" value="Agregar" id="btnAgregarProducto" class="btn btn-primary" />
+                            <a class="btn btn-outline-danger" asp-action="AnularFactura">
+                                <i class="bi bi-trash"></i>&nbsp; Anular
+                            </a>
+                            @*CREA LA FACTURA*@
+                            @*<a class="btn btn-outline-success" asp-area="" asp-controller="TemporalProducto" asp-action="GuardarFactura">
+                                <i class="bi bi-printer"></i>&nbsp; Vender
+                            </a>*@
+                        </div>
+                    </div>
+                    
+                </form>
+            </div><br />
+        </div>
+
+        @*COLUMNA NIT*@
+        <div class="col-md-6">
+            <div class="col-md-12 float-right">
+                <form asp-action="GuardarFactura2" method="post" enctype="multipart/form-data">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="form-group row">
+                                <div class="col-md-8">
+                                    <input type="text" required asp-for="NitCliente_temp" id="nit" class="form-control" placeholder="Nit" />
+                                </div>
+                                @*<label for="nit" class="control-label">Nit:</label>*@
+                                <div class="col-md-4" style="cursor:pointer">
+                                    <a class="btn btn-outline-warning" id="btnBuscarNit">
+                                        <i class="bi bi-search"></i>&nbsp;Buscar
+                                    </a>
+                                </div>
+                            </div>
+                            @*MUESTRA DATO DEL CLIENTE ENCONTRADO*@
+                            <div class="alert alert-warning" role="alert">
+                                NOMBRE CLIENTE: <a href="#" id="txtNombreCliente" class="alert-link"> Cliente</a>.
+                            </div>
+                            @*MENSAJE DE ALERTA*@
+                            <div>
+                                @if (TempData["messageNitInvalido"] != null)
+                                {
+                                    <div class="alert alert-danger alert-dismissible fase show" role="alert">
+                                        @TempData["messageNitInvalido"]
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                }
+                            </div>
+                            <div class="float-right">
+                                <input type="submit" value="imprimir" class="btn btn-outline-success" />
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
-    </form>
+    </div>
 </div>
 
 
