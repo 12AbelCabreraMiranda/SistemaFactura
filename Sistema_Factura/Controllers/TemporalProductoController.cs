@@ -14,6 +14,7 @@ namespace Sistema_Factura.Controllers
     {
         //Inyección del contexto
         private readonly Sistema_FacturaContext _context;
+       
         public TemporalProductoController(Sistema_FacturaContext context) => _context = context;
 
         //public static decimal totalFact=0;
@@ -134,6 +135,7 @@ namespace Sistema_Factura.Controllers
                         if (validarNit.IdCliente_temp.Equals(_nitCliente_temp.ClienteId))
                         {
                             //Guardar producto temporal para la factura
+                            //PENDIENTE VALIDAR NIT SI NO EXISTE EN EL SISTEMA CUANDO YA HAYA UNO AGREGADO TEMP, solo está validado cuando no hay nada
                             var add_tempProducto = new TempProducto()
                             {
                                 Cantidad_temp = agregarProductoModel.Cantidad,
@@ -239,6 +241,16 @@ namespace Sistema_Factura.Controllers
         {
             var temp = _context.TempProducto.Include(p => p.Producto).ToList();
             return PartialView("_TempProducto", temp);
+        }    
+        
+        //ANULA PRODUCTOS AGREGADOS        
+        public async Task<IActionResult> AnularProducto(int Id)
+        {
+            var _tempProducto = await _context.TempProducto.FindAsync(Id);
+            _context.TempProducto.Remove(_tempProducto);
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(BuscarProducto));
         }
     }
 }

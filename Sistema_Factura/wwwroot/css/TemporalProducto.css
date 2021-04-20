@@ -1,0 +1,10 @@
+﻿#bordeContainer {
+    border-radius: 5px;
+    border: 1px solid #757878;
+    padding: 20px;
+}
+
+#btnBuscarProd {
+    border: 1px solid white;
+    background: white;    
+}
