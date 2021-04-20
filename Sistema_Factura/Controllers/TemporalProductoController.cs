@@ -14,6 +14,7 @@ namespace Sistema_Factura.Controllers
     {
         //Inyección del contexto
         private readonly Sistema_FacturaContext _context;
+       
         public TemporalProductoController(Sistema_FacturaContext context) => _context = context;
 
         //public static decimal totalFact=0;
@@ -240,28 +241,16 @@ namespace Sistema_Factura.Controllers
         {
             var temp = _context.TempProducto.Include(p => p.Producto).ToList();
             return PartialView("_TempProducto", temp);
-        }
-
-        //******TESTING DATATABLE CON AJAX************+
-        [HttpGet]
-        public async Task<IActionResult> DataTable()
+        }    
+        
+        //ANULA PRODUCTOS AGREGADOS        
+        public async Task<IActionResult> AnularProducto(int Id)
         {
-            //var temAjax = _context.TempProducto.ToListAsync();
-            var productoAjax = (from t in _context.TempProducto
-                                join p in _context.Producto
-                                on t.ProductoId equals p.ProductoId
-                                select new
-                                {
-                                    t.TempProductoId,
-                                    p.CodigoProducto,
-                                    p.NombreProducto,
-                                    t.Cantidad_temp,
-                                    t.PrecioVenta_temp,
-                                    t.SubTotal_temp
-                                }).ToListAsync();
+            var _tempProducto = await _context.TempProducto.FindAsync(Id);
+            _context.TempProducto.Remove(_tempProducto);
+            _context.SaveChanges();
 
-            
-            return Json(new { data = await productoAjax });
+            return RedirectToAction(nameof(BuscarProducto));
         }
     }
 }

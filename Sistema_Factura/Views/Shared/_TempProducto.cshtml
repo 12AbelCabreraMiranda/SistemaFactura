@@ -9,7 +9,7 @@
             <th>CANTIDAD</th>
             <th>PRECIO UNITARIO</th>
             <th>SUBTOTAL</th>
-
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -30,6 +30,11 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.SubTotal_temp)
+                </td>
+                <td>
+                    <a asp-action="AnularProducto" asp-route-id="@item.TempProductoId" class="btn btn-outline-secondary">
+                        <i class="bi bi-trash"></i>
+                    </a>
                 </td>
             </tr>
         }
@@ -58,7 +63,7 @@
         //jQuery
         $.post(url).done(function (data) {
             //Se ejecuta si la operacion fue un éxito
-            $("#total").html(data);                
+            $("#total").html(data);
         }).fail(manejarErrorAjax).always(function () {
             //Esta funcion siempre se ejecuta
         });
@@ -67,3 +72,6 @@
         console.log(err.responseText);
     }
 </script>
+
+
+
