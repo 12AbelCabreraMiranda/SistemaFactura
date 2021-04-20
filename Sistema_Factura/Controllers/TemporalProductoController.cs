@@ -241,5 +241,27 @@ namespace Sistema_Factura.Controllers
             var temp = _context.TempProducto.Include(p => p.Producto).ToList();
             return PartialView("_TempProducto", temp);
         }
+
+        //******TESTING DATATABLE CON AJAX************+
+        [HttpGet]
+        public async Task<IActionResult> DataTable()
+        {
+            //var temAjax = _context.TempProducto.ToListAsync();
+            var productoAjax = (from t in _context.TempProducto
+                                join p in _context.Producto
+                                on t.ProductoId equals p.ProductoId
+                                select new
+                                {
+                                    t.TempProductoId,
+                                    p.CodigoProducto,
+                                    p.NombreProducto,
+                                    t.Cantidad_temp,
+                                    t.PrecioVenta_temp,
+                                    t.SubTotal_temp
+                                }).ToListAsync();
+
+            
+            return Json(new { data = await productoAjax });
+        }
     }
 }
