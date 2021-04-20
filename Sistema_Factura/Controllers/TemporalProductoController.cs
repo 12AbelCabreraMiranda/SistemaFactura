@@ -134,6 +134,7 @@ namespace Sistema_Factura.Controllers
                         if (validarNit.IdCliente_temp.Equals(_nitCliente_temp.ClienteId))
                         {
                             //Guardar producto temporal para la factura
+                            //PENDIENTE VALIDAR NIT SI NO EXISTE EN EL SISTEMA CUANDO YA HAYA UNO AGREGADO TEMP, solo está validado cuando no hay nada
                             var add_tempProducto = new TempProducto()
                             {
                                 Cantidad_temp = agregarProductoModel.Cantidad,
