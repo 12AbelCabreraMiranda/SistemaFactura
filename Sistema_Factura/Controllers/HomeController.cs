@@ -38,30 +38,30 @@ namespace Sistema_Factura.Controllers
         }
         
         //Método para obtener el nombre del nit
-        [HttpPost]
-        public JsonResult MostrarNombreCliente()
-        {
-            var _clienteId = (from t in _context.TempProducto    
-                              join c in _context.Cliente
-                              on t.IdCliente_temp equals c.ClienteId
+        //[HttpPost]
+        //public JsonResult MostrarNombreCliente()
+        //{
+        //    var _clienteId = (from t in _context.TempProducto    
+        //                      join c in _context.Cliente
+        //                      on t.IdCliente_temp equals c.ClienteId
                               
-                            select c.NombreCliente).FirstOrDefault();
+        //                    select c.NombreCliente).FirstOrDefault();
 
-            return Json(_clienteId);
-        }
+        //    return Json(_clienteId);
+        //}
 
         //Método para obtener el nit
-        [HttpPost]
-        public JsonResult MostrarNit()
-        {
-            var _clienteId = (from t in _context.TempProducto
-                              join c in _context.Cliente
-                              on t.IdCliente_temp equals c.ClienteId
+        //[HttpPost]
+        //public JsonResult MostrarNit()
+        //{
+        //    var _clienteId = (from t in _context.TempProducto
+        //                      join c in _context.Cliente
+        //                      on t.IdCliente_temp equals c.ClienteId
 
-                              select c.Nit).FirstOrDefault();
+        //                      select c.Nit).FirstOrDefault();
 
-            return Json(_clienteId);
-        }
+        //    return Json(_clienteId);
+        //}
 
         public IActionResult Index()
         {

@@ -23,14 +23,17 @@
 
                     <div class="card">
                         <div class="card-header">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="form-group row">
+
                                 <div class="col-md-8">
-                                    <input placeholder="Codigo" class="form-control" asp-for="CodigoProducto" type="number" name="CodigoProd" />
+                                    <input placeholder="Codigo" class="form-control" asp-for="CodigoProducto" name="CodigoProd"/>
+                                    <span asp-validation-for="CodigoProducto" class="text-danger"></span>
                                 </div>
                                 <div class="col-md-4">
                                     <p>
                                         @*id="CodigoProd"*@
-                                        <span asp-validation-for="CodigoProducto" class="text-danger"></span>
+
                                         <span class="btn" style="border: 1px solid #757878;background: white;">
                                             <i class="bi bi-search"></i>&nbsp;
                                             <input id="btnBuscarProd" type="submit" value="Buscar" />
@@ -80,6 +83,7 @@
                         <div class="col-md-12">
                             <label asp-for="Cantidad" class="col-form-label"></label>
                             <input asp-for="Cantidad" value="1" type="number" class="form-control">
+                            <span asp-validation-for="Cantidad" class="text-danger"></span>
                         </div>
                     </div>
 
@@ -117,18 +121,28 @@
                                 </button>
                             </div>
                         }
-                    </div>                   
-
-                    @*COLUMNA BOTONES*@                    
+                    </div>
+                    <div>
+                        @if (TempData["messageProductoAgregado"] != null)
+                        {
+                            <div class="alert alert-success alert-dismissible fase show" role="alert">
+                                @TempData["messageProductoAgregado"]
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        }
+                    </div>
+                    @*COLUMNA BOTONES*@
                     <div class="col-md-12" style="margin-top:20px">
                         <div class="float-left">
                             <input type="submit" value="Agregar" id="btnAgregarProducto" class="btn btn-primary" />
                             <a class="btn btn-outline-danger" asp-action="AnularFactura">
                                 <i class="bi bi-trash"></i>&nbsp; Anular productos agregados
-                            </a>                            
+                            </a>
                         </div>
                     </div>
-                    
+
                 </form>
             </div><br />
         </div>
@@ -136,7 +150,7 @@
         @*COLUMNA NIT*@
         <div class="col-md-6">
             <div class="col-md-12 float-right">
-                <form asp-action="GuardarFactura2" method="post" enctype="multipart/form-data">
+                <form asp-action="GuardarFactura" method="post" enctype="multipart/form-data">
                     <div class="card">
                         <div class="card-header">
                             <div class="form-group row">
@@ -152,28 +166,27 @@
                                 </div>
                             </div>
                             @*MUESTRA DATO DEL CLIENTE ENCONTRADO*@
-                            <div class="alert alert-warning" role="alert">
+                            <div class="alert alert-info" role="alert">
                                 NOMBRE CLIENTE: <a href="#" id="txtNombreCliente" class="alert-link"> Cliente</a>.
-                            </div>
-                            @*MENSAJE DE ALERTA*@
-                            @*<div>
-                    @if (TempData["messageNitInvalido"] != null)
-                    {
-                        <div class="alert alert-danger alert-dismissible fase show" role="alert">
-                            @TempData["messageNitInvalido"]
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    }
-                </div>*@
-
+                            </div>                            
                             <div class="float-right">
-                                <input type="submit" id="btngGuardarFactura" value="imprimir" class="btn btn-outline-success" />
+                                <input type="submit" id="btngGuardarFactura" value="Vender" class="btn btn-outline-success" />
                             </div>
                         </div>
                     </div>
                     <div>
+                        @*MENSAJE DE ALERTA*@
+                        <div>
+                            @if (TempData["messageFacturaSave"] != null)
+                            {
+                                <div class="alert alert-success alert-dismissible fase show" role="alert">
+                                    @TempData["messageFacturaSave"]
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            }
+                        </div>
                         @if (TempData["messageNoFactura"] != null)
                         {
                             <div class="alert alert-danger alert-dismissible fase show" role="alert">
@@ -190,7 +203,12 @@
     </div>
 </div>
 
-
+@*VALIDACIÓN DE CAMPOS, LADO DEL CLIENTE*@
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
 
 
 @*CARGA TABLA DE DATOS*@
@@ -198,12 +216,7 @@
 <script src="~/js/DataTable.js"></script>
 
 
-@*VALIDACIÓN DE CAMPOS, LADO DEL CLIENTE*@
-@section Scripts{
-    @{        
-        <partial name="_ValidationScriptsPartial" />
-    }
-}
+
 
 @*BUSCAR NIT*@
 <script>
@@ -229,27 +242,28 @@
             //MUESTRA RESULTADO DEL NIT BUSCADO
             var x = $("#txtNombreCliente").html(data);
 
-            //COPIA VALOR DE NIT 
+            //COPIA VALOR DE NIT
             document.getElementById("CopiaNit").value = document.getElementById("nitHide").value;
-         
+
             //FUNCION PARA HABILITAR EL BOTÓN IMPRIMIT
             var nitData = $("#txtNombreCliente").html();
             if (nitData == "") {
-                $('#btngGuardarFactura').attr("disabled", true);
+                $("#txtNombreCliente").html("Nit no encontrado");
+                $('#btngGuardarFactura').attr("disabled", true);//BOTON DESABILITADO
             } else {
-                $('#nitHide').attr("disabled", true);               
+                $('#nitHide').attr("disabled", true);
 
-                $('#btngGuardarFactura').attr("disabled", false);
+                $('#btngGuardarFactura').attr("disabled", false);//BOTON HABILITADO
             }
-            
+
         }).fail(manejarErrorAjax).always(function () {
             //Esta funcion siempre se ejecuta
-        });           
+        });
     });
         function manejarErrorAjax(err) {
     console.log(err.responseText);
         }
-    });    
+    });
 </script>
 
 

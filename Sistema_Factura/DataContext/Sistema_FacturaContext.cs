@@ -16,8 +16,7 @@ namespace Sistema_Factura.DataContext
         public DbSet<Factura> Factura { get; set; }
         public DbSet<DetalleFactura> DetalleFactura { get; set; }
         public DbSet<Producto> Producto { get; set; }
-        public DbSet<TempProducto> TempProducto { get; set; }
-        public DbSet<Test> Test { get; set; }
+        public DbSet<TempProducto> TempProducto { get; set; }        
 
     }
 }

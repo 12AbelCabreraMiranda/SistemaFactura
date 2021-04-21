@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Sistema_Factura.DataContext;
 
 namespace Sistema_Factura.Migrations
 {
     [DbContext(typeof(Sistema_FacturaContext))]
-    partial class Sistema_FacturaContextModelSnapshot : ModelSnapshot
+    [Migration("20210421193316_alter_model_temProducto")]
+    partial class alter_model_temProducto
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -146,6 +148,27 @@ namespace Sistema_Factura.Migrations
                     b.HasIndex("ProductoId");
 
                     b.ToTable("TempProducto");
+                });
+
+            modelBuilder.Entity("Sistema_Factura.Models.Test", b =>
+                {
+                    b.Property<int>("TestId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Cantidad")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("PrecioVenta")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("ProductoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("TestId");
+
+                    b.ToTable("Test");
                 });
 
             modelBuilder.Entity("Sistema_Factura.Models.DetalleFactura", b =>
