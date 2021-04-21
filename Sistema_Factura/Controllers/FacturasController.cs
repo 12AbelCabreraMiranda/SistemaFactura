@@ -88,7 +88,20 @@ namespace Sistema_Factura.Controllers
             //return View(await _context.DetalleFactura.Include(c => c.Factura).Include(p => p.Producto).ToListAsync());
         }
 
-        //METODOS PARA OBTENER DATOS DETALLADOS DEL CLIENTE
+        //OBTIENE FECHA DE FACTURA DEL CLIENTE
+        [HttpPost]
+        public JsonResult FechaFactura(int FacturaHide)
+        {
+
+            var _numeroFactura = (from f in _context.Factura
+
+                                  where f.FacturaId == FacturaHide
+                                  select f.FechaFactura.ToString("dd-MM-yyyy")).FirstOrDefault();//OBTIENE SOLO LA FECHA SIN LA HORA
+
+            return Json(_numeroFactura);
+        }
+
+        //OBTIENE NUMERO DE FACTURA DEL CLIENTE
         [HttpPost]
         public JsonResult NumeroFactura(int FacturaHide)
         {
@@ -100,7 +113,7 @@ namespace Sistema_Factura.Controllers
             return Json(_numeroFactura);
         }
 
-        //Obtener el nombre del cliente
+        //OBTIENE NOMBRE DEL CLIENTE
         [HttpPost]
         public JsonResult NombreClienteFactura(int FacturaHide)
         {
@@ -114,7 +127,7 @@ namespace Sistema_Factura.Controllers
             return Json(_NombreClienteF);
         }
 
-        //Obtener el Nit del cliente
+        //OBTINE NIT DEL CLIENTE
         [HttpPost]
         public JsonResult NitClienteFactura(int FacturaHide)
         {
@@ -128,7 +141,7 @@ namespace Sistema_Factura.Controllers
             return Json(_nitClienteFactura);
         }
 
-        //Obtener el valor Total vendido de factura del cliente
+        //OBTIENE VALOR TOTAL DE LA FACTURA DEL CLIENTE VENDIDO
         [HttpPost]
         public JsonResult TotalFactura(int FacturaHide)
         {

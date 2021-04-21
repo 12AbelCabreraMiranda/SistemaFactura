@@ -16,8 +16,7 @@ namespace Sistema_Factura.Controllers
         private readonly Sistema_FacturaContext _context;
        
         public TemporalProductoController(Sistema_FacturaContext context) => _context = context;
-
-        //public static decimal totalFact=0;
+       
         public async Task<IActionResult> Index()
         {
             var tempP = from t in _context.TempProducto
