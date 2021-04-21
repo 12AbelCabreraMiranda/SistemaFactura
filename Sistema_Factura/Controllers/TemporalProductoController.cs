@@ -243,7 +243,7 @@ namespace Sistema_Factura.Controllers
             return PartialView("_TempProducto", temp);
         }    
         
-        //ANULA PRODUCTOS AGREGADOS        
+        //ANULA PRODUCTOS AGREGADOS EN: DATATABBLE    
         public async Task<IActionResult> AnularProducto(int Id)
         {
             var _tempProducto = await _context.TempProducto.FindAsync(Id);
@@ -276,16 +276,39 @@ namespace Sistema_Factura.Controllers
                 }
                 else
                 {
-                    var add_tempProducto = new TempProducto()
+                    //PROCEDIMEINTO PARA AGREGAR PRODUCTO A FACTURA ***FUNCIONA PERO FALTA REVISARLO BIEN***
+                    var _consultaCodigo = _context.Producto.Where(p => p.CodigoProducto.Equals(agregarProductoModel.CodigoProducto)).FirstOrDefault(); //Consulta producto
+                    //Consulta Model TempProducto
+                    var _consultaTempProducto = _context.TempProducto.Where(t=>t.ProductoId.Equals(_consultaCodigo.ProductoId)).FirstOrDefault();
+                    //LISTA DE TEMPPRODUCTO
+                    var _listaTempProducto=_context.TempProducto.Where(t=>t.ProductoId.Equals(_consultaCodigo.ProductoId)).ToList();
+
+                    if (!_listaTempProducto.Count.Equals(0))
                     {
-                        Cantidad_temp = agregarProductoModel.Cantidad,
-                        PrecioVenta_temp = agregarProductoModel.PrecioProductoCompra,
-                        ProductoId = agregarProductoModel.ProductoId,
-                        SubTotal_temp = _subTotal,
-                        IdCliente_temp = 1
-                    };
-                    _context.TempProducto.Add(add_tempProducto);
-                    _context.SaveChanges();
+                        var _updateCantidad = agregarProductoModel.Cantidad + _consultaTempProducto.Cantidad_temp;//Suma el dato del servidor y del viewModel
+                        var _updateSubTotal = _consultaTempProducto.PrecioVenta_temp * _updateCantidad;//multiplica con la nueva cantidad
+
+                        //ACTUALIZA CUANDO SE AGREGA PRODUCTOS QUE YA HA SIDO AGREGADO
+                        var add_tempProductoUpdate = _context.TempProducto.Find(_consultaTempProducto.TempProductoId);                        
+                        add_tempProductoUpdate.Cantidad_temp = _updateCantidad;
+                        add_tempProductoUpdate.SubTotal_temp = _updateSubTotal;
+
+                        _context.TempProducto.Update(add_tempProductoUpdate);
+                        _context.SaveChanges();
+                    }
+                    else
+                    {
+                        var add_tempProducto = new TempProducto()
+                        {
+                            Cantidad_temp = agregarProductoModel.Cantidad,
+                            PrecioVenta_temp = agregarProductoModel.PrecioProductoCompra,
+                            ProductoId = agregarProductoModel.ProductoId,
+                            SubTotal_temp = _subTotal,
+                            IdCliente_temp = 1
+                        };
+                        _context.TempProducto.Add(add_tempProducto);
+                        _context.SaveChanges();
+                    }
 
                 }
             }

@@ -63,20 +63,21 @@
                     <input type="hidden" asp-for="ProductoId" />
                     <div class="form-row">
 
-                        <div class="form-group col-md- mb-3">
+                        <div class="form-group col-md-12 mb-3">
                             <label asp-for="NombreProducto" class="col-form-label"></label>
                             <input asp-for="NombreProducto" disabled class="form-control">
                         </div>
-                        <div class="col-md- mb-3">
+                        <div class="col-md-12 mb-3">
                             <label asp-for="CodigoProducto" class="col-form-label"></label>
                             <input asp-for="CodigoProducto" disabled class="form-control">
+                            <input asp-for="CodigoProducto" type="hidden" class="form-control">
                         </div>
-                        <div class="col-md-">
+                        <div class="col-md-12">
                             <label asp-for="PrecioProductoCompra" class="col-form-label"></label>
                             <input asp-for="PrecioProductoCompra" disabled class="form-control">
                             <input asp-for="PrecioProductoCompra" type="hidden" class="form-control">
                         </div>
-                        <div class="col-md-">
+                        <div class="col-md-12">
                             <label asp-for="Cantidad" class="col-form-label"></label>
                             <input asp-for="Cantidad" value="1" type="number" class="form-control">
                         </div>
@@ -116,30 +117,15 @@
                                 </button>
                             </div>
                         }
-                    </div>
-                    <div>
-                        @if (TempData["messageNoFactura"] != null)
-                        {
-                            <div class="alert alert-warning alert-dismissible fase show" role="alert">
-                                @TempData["messageNoFactura"]
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                        }
-                    </div>
+                    </div>                   
 
                     @*COLUMNA BOTONES*@                    
                     <div class="col-md-12" style="margin-top:20px">
                         <div class="float-left">
                             <input type="submit" value="Agregar" id="btnAgregarProducto" class="btn btn-primary" />
                             <a class="btn btn-outline-danger" asp-action="AnularFactura">
-                                <i class="bi bi-trash"></i>&nbsp; Anular
-                            </a>
-                            @*CREA LA FACTURA*@
-                            @*<a class="btn btn-outline-success" asp-area="" asp-controller="TemporalProducto" asp-action="GuardarFactura">
-                                <i class="bi bi-printer"></i>&nbsp; Vender
-                            </a>*@
+                                <i class="bi bi-trash"></i>&nbsp; Anular productos agregados
+                            </a>                            
                         </div>
                     </div>
                     
@@ -155,7 +141,8 @@
                         <div class="card-header">
                             <div class="form-group row">
                                 <div class="col-md-8">
-                                    <input type="text" required asp-for="NitCliente_temp" id="nit" class="form-control" placeholder="Nit" />
+                                    <input asp-for="NitCliente_temp" id="nitHide" class="form-control" placeholder="Nit" />
+                                    <input type="hidden" asp-for="NitCliente_temp" id="CopiaNit" class="form-control" />
                                 </div>
                                 @*<label for="nit" class="control-label">Nit:</label>*@
                                 <div class="col-md-4" style="cursor:pointer">
@@ -169,21 +156,33 @@
                                 NOMBRE CLIENTE: <a href="#" id="txtNombreCliente" class="alert-link"> Cliente</a>.
                             </div>
                             @*MENSAJE DE ALERTA*@
-                            <div>
-                                @if (TempData["messageNitInvalido"] != null)
-                                {
-                                    <div class="alert alert-danger alert-dismissible fase show" role="alert">
-                                        @TempData["messageNitInvalido"]
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                }
-                            </div>
+                            @*<div>
+                    @if (TempData["messageNitInvalido"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fase show" role="alert">
+                            @TempData["messageNitInvalido"]
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    }
+                </div>*@
+
                             <div class="float-right">
-                                <input type="submit" value="imprimir" class="btn btn-outline-success" />
+                                <input type="submit" id="btngGuardarFactura" value="imprimir" class="btn btn-outline-success" />
                             </div>
                         </div>
+                    </div>
+                    <div>
+                        @if (TempData["messageNoFactura"] != null)
+                        {
+                            <div class="alert alert-danger alert-dismissible fase show" role="alert">
+                                @TempData["messageNoFactura"]
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        }
                     </div>
                 </form>
             </div>
@@ -208,27 +207,49 @@
 
 @*BUSCAR NIT*@
 <script>
+    //COPIA VALOR DE NIT EN CUANTO ESCRIBE
+    $(document).ready(function () {
+        $("#nitHide").keyup(function () {
+            var value = $(this).val();
+            $("#CopiaNit").val(value);
+        });
+    });
+    //Inicializa botón desabilitado: GUARDAR FACTURA
+    $('#btngGuardarFactura').attr("disabled", true);
+
     $(function () {
     $("#btnBuscarNit").click(function () {
 
         var url = "@Url.Action("BuscarNit", "Home")";
-        var nit = $("#nit").val();
-
+        var nit = $("#nitHide").val();
         var data = { nit: nit };
 
         //jQuery
         $.post(url, data).done(function (data) {
-            //Se ejecuta si la operacion fue un éxito
-            $("#txtNombreCliente").html(data);
-            //$("#txtPrecio").html(data);
+            //MUESTRA RESULTADO DEL NIT BUSCADO
+            var x = $("#txtNombreCliente").html(data);
+
+            //COPIA VALOR DE NIT 
+            document.getElementById("CopiaNit").value = document.getElementById("nitHide").value;
+         
+            //FUNCION PARA HABILITAR EL BOTÓN IMPRIMIT
+            var nitData = $("#txtNombreCliente").html();
+            if (nitData == "") {
+                $('#btngGuardarFactura').attr("disabled", true);
+            } else {
+                $('#nitHide').attr("disabled", true);               
+
+                $('#btngGuardarFactura').attr("disabled", false);
+            }
+            
         }).fail(manejarErrorAjax).always(function () {
             //Esta funcion siempre se ejecuta
-        });
+        });           
     });
         function manejarErrorAjax(err) {
     console.log(err.responseText);
         }
-    });
+    });    
 </script>
 
 

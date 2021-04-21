@@ -33,8 +33,8 @@ namespace Sistema_Factura.Controllers
             var _cliente = (from s in _context.Cliente
                             where s.Nit==nit
                             select s.NombreCliente).FirstOrDefault();
-
-            return Json(_cliente);
+           
+            return Json(_cliente);                        
         }
         
         //Método para obtener el nombre del nit

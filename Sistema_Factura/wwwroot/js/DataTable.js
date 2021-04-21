@@ -18,8 +18,6 @@
 
 
 
-
-
 //FUNCIONA, PERO AGREGARLO A VISTA FACTURAS
 //@* TESTIN DATA TABLE AJAX *@
 //<div class="col-12 border p-3">
