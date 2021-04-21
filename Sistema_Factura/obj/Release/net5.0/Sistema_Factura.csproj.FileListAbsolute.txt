@@ -442,3 +442,4 @@ C:\Users\Abel\Documents\Visual Studio 2019\Projects\Sistema_Factura\Sistema_Fact
 C:\Users\Abel\Documents\Visual Studio 2019\Projects\Sistema_Factura\Sistema_Factura\obj\Release\net5.0\ref\Sistema_Factura.dll
 C:\Users\Abel\Documents\Visual Studio 2019\Projects\Sistema_Factura\Sistema_Factura\obj\Release\net5.0\Sistema_Factura.pdb
 C:\Users\Abel\Documents\Visual Studio 2019\Projects\Sistema_Factura\Sistema_Factura\obj\Release\net5.0\Sistema_Factura.genruntimeconfig.cache
+C:\Users\Abel\Documents\Visual Studio 2019\Projects\Sistema_Factura\Sistema_Factura\obj\Release\net5.0\Razor\Views\Shared\_TempProducto.cshtml.g.cs

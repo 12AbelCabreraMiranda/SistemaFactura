@@ -1,7 +1,9 @@
 C:\Users\Abel\Documents\Visual Studio 2019\Projects\Sistema_Factura\Sistema_Factura\obj\Release\net5.0\PubTmp\Out\Sistema_Factura.exe
 C:\Users\Abel\Documents\Visual Studio 2019\Projects\Sistema_Factura\Sistema_Factura\obj\Release\net5.0\PubTmp\Out\wwwroot\css\site.css
+C:\Users\Abel\Documents\Visual Studio 2019\Projects\Sistema_Factura\Sistema_Factura\obj\Release\net5.0\PubTmp\Out\wwwroot\css\TemporalProducto.css
 C:\Users\Abel\Documents\Visual Studio 2019\Projects\Sistema_Factura\Sistema_Factura\obj\Release\net5.0\PubTmp\Out\wwwroot\favicon.ico
 C:\Users\Abel\Documents\Visual Studio 2019\Projects\Sistema_Factura\Sistema_Factura\obj\Release\net5.0\PubTmp\Out\wwwroot\img\DotNet.jpg
+C:\Users\Abel\Documents\Visual Studio 2019\Projects\Sistema_Factura\Sistema_Factura\obj\Release\net5.0\PubTmp\Out\wwwroot\js\DataTable.js
 C:\Users\Abel\Documents\Visual Studio 2019\Projects\Sistema_Factura\Sistema_Factura\obj\Release\net5.0\PubTmp\Out\wwwroot\js\site.js
 C:\Users\Abel\Documents\Visual Studio 2019\Projects\Sistema_Factura\Sistema_Factura\obj\Release\net5.0\PubTmp\Out\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
 C:\Users\Abel\Documents\Visual Studio 2019\Projects\Sistema_Factura\Sistema_Factura\obj\Release\net5.0\PubTmp\Out\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map
