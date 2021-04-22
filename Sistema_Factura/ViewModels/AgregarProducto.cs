@@ -9,7 +9,7 @@ namespace Sistema_Factura.ViewModels
     public class AgregarProducto
     {
         public int ProductoId { get; set; }
-        //[Required(ErrorMessage = "El campo {0} es obligatorio")]
+        
         public int CodigoProducto { get; set; }
         public string NombreProducto { get; set; }
 

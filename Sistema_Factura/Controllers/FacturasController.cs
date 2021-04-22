@@ -26,7 +26,7 @@ namespace Sistema_Factura.Controllers
                               on f.ClienteId equals c.ClienteId
                               where f.EstadoFactura == 1
                               select f;
-            //Search Cliente
+            //BUSCA POR NIT DEL CLIENTE
             if (!String.IsNullOrEmpty(buscarNit))
             {
                 _nitFactura = _nitFactura.Where(d => d.Cliente.Nit.Contains(buscarNit));
@@ -35,7 +35,7 @@ namespace Sistema_Factura.Controllers
             }
             //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-            //Buscar Facturas por rango de fechas********************************************
+            //BUSCA RANGO DE FECHAS DE FACTURAS********************************************
             var startDate = fechaInicio;
             var endDate = fechaFin;
 
@@ -57,10 +57,9 @@ namespace Sistema_Factura.Controllers
         }
 
 
-        //METODO ACTUALIZA ESTADOS DE FACTURAS
+        //METODO PARA CAMBIAR ESTADO DE FACTURA
         public IActionResult EliminarFactura(int id)
-        {
-            //Actualizar estado en Factura
+        {           
             var _facturaStatu = _context.Factura.Find(id);
             _facturaStatu.EstadoFactura = 0;
 
@@ -81,8 +80,7 @@ namespace Sistema_Factura.Controllers
 
             _detalleFactura = _detalleFactura.Where(d => d.FacturaId.Equals(id));
 
-            return View(await _detalleFactura.Include(c => c.Factura).Include(p => p.Producto).ToListAsync());
-            //return View(await _context.DetalleFactura.Include(c => c.Factura).Include(p => p.Producto).ToListAsync());
+            return View(await _detalleFactura.Include(c => c.Factura).Include(p => p.Producto).ToListAsync());            
         }
 
         //METODO OBTIENE FECHA DE FACTURA DEL CLIENTE

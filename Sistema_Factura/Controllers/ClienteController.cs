@@ -30,7 +30,7 @@ namespace Sistema_Factura.Controllers
             
             if (ModelState.IsValid)
             {               
-                //Consultando si el producto existe
+                //CONSULTANDO SI EL CLIENTE EXISTE
                 var ValidarNit = _context.Cliente.Where(p => p.Nit.Equals(clienteModel.Nit)).ToList();
 
                 if (ValidarNit.Count.Equals(0))

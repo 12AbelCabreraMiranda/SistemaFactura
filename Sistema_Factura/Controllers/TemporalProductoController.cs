@@ -12,17 +12,14 @@ namespace Sistema_Factura.Controllers
 {
     public class TemporalProductoController : Controller
     {
-        //Inyección del contexto
+        //INYECCION DEL CONTEXT
         private readonly Sistema_FacturaContext _context;
        
         public TemporalProductoController(Sistema_FacturaContext context) => _context = context;
        
-        public async Task<IActionResult> Index()
-        {
-            var tempP = from t in _context.TempProducto
-                        select t;
-
-            return View(await tempP.Include(p => p.Producto).ToListAsync());
+        public IActionResult Index()
+        {            
+            return View();
         }
         public IActionResult BuscarProducto()
         {
@@ -77,8 +74,7 @@ namespace Sistema_Factura.Controllers
 
         //ANULAR LOS PRODUCTOS TEMPORALES
         public IActionResult AnularFactura()
-        {
-            //Elimina los registros del modelo: TempProducto            
+        {                     
             var x = (from y in _context.TempProducto
                      select y).ToList();
             _context.TempProducto.RemoveRange(x);
@@ -126,7 +122,7 @@ namespace Sistema_Factura.Controllers
                 }
                 else
                 {
-                    //PROCEDIMEINTO PARA AGREGAR PRODUCTO A FACTURA ***FUNCIONA PERO FALTA REVISARLO BIEN***
+                    //PROCEDIMEINTO PARA AGREGAR PRODUCTO A FACTURA
                     var _consultaCodigo = _context.Producto.Where(p => p.CodigoProducto.Equals(agregarProductoModel.CodigoProducto)).FirstOrDefault(); //Consulta producto
                     //Consulta Model TempProducto
                     var _consultaTempProducto = _context.TempProducto.Where(t=>t.ProductoId.Equals(_consultaCodigo.ProductoId)).FirstOrDefault();
@@ -149,6 +145,7 @@ namespace Sistema_Factura.Controllers
                     }
                     else
                     {
+                        //CREA UNA FILA CON EL PRODUCTO DIFERENTE EN DATATABLE
                         var add_tempProducto = new TempProducto()
                         {
                             Cantidad_temp = agregarProductoModel.Cantidad,

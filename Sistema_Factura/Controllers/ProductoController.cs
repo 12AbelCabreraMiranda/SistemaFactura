@@ -11,7 +11,7 @@ namespace Sistema_Factura.Controllers
 {
     public class ProductoController : Controller
     {
-        //Inyeccion del contexto
+        //INYECCION DEL CONTEXT
         private readonly Sistema_FacturaContext _context;
         public ProductoController(Sistema_FacturaContext context) => _context = context;
 
@@ -19,9 +19,9 @@ namespace Sistema_Factura.Controllers
         {
             return View();
         }
+        //METODO QUE LISTA LOS PRODUCTOS CON ESTADO==1
         public async Task<ActionResult> ProductosRegistrados()
-        {
-            //Muestra todo los productos registrados con estados ==1
+        {            
             var produc = await _context.Producto.Where(x => x.EstadoProducto == 1).ToListAsync();
             return View(produc);
         }
@@ -30,22 +30,21 @@ namespace Sistema_Factura.Controllers
         {
             return View();
         }
-        [HttpPost]
-        //[ValidateAntiForgeryToken]
-        //Registrar Productos Nuevos.       
+
+        //METODO PARA REGISTRAR PRODUCTOS EN EL SISTEMA
+        [HttpPost]            
         public async Task<IActionResult> NuevoProducto(Producto productoModel)
         {
             if (ModelState.IsValid)
             {
-                //Fecha del sistema
+                //OBTIENE FECHA DEL SISTEMA
                 DateTime FechaSistema = System.DateTime.Now;
 
-                //Consultando si el producto existe
+                //CONSULTA PARA VER SI EXISTE EL CODIGO DEL PRODUCTO A REGISTRAR
                 var ValidarProducto = _context.Producto.Where(p => p.CodigoProducto.Equals(productoModel.CodigoProducto)).ToList();
 
                 if (ValidarProducto.Count.Equals(0))
-                {
-                    //Modelo Producto
+                {                    
                     try
                     {
                         var oProducto = new Producto()
