@@ -876,7 +876,6 @@ C:\Users\cabre\Documents\Visual Studio 2019\Project\SistemaFactura\Sistema_Factu
 C:\Users\cabre\Documents\Visual Studio 2019\Project\SistemaFactura\Sistema_Factura\obj\Debug\net5.0\Razor\Views\Shared\_TempProducto.cshtml.g.cs
 C:\Users\cabre\Documents\Visual Studio 2019\Project\SistemaFactura\Sistema_Factura\obj\Debug\net5.0\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
 C:\Users\cabre\Documents\Visual Studio 2019\Project\SistemaFactura\Sistema_Factura\obj\Debug\net5.0\Razor\Views\TemporalProducto\BuscarProducto.cshtml.g.cs
-C:\Users\cabre\Documents\Visual Studio 2019\Project\SistemaFactura\Sistema_Factura\obj\Debug\net5.0\Razor\Views\TemporalProducto\Index.cshtml.g.cs
 C:\Users\cabre\Documents\Visual Studio 2019\Project\SistemaFactura\Sistema_Factura\obj\Debug\net5.0\Razor\Views\TemporalProducto\_ProductosAddTem.cshtml.g.cs
 C:\Users\cabre\Documents\Visual Studio 2019\Project\SistemaFactura\Sistema_Factura\obj\Debug\net5.0\Razor\Views\_ViewImports.cshtml.g.cs
 C:\Users\cabre\Documents\Visual Studio 2019\Project\SistemaFactura\Sistema_Factura\obj\Debug\net5.0\Razor\Views\_ViewStart.cshtml.g.cs
