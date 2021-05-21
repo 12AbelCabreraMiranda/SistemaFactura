@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\cabre\\Documents\\Visual Studio 2019\\Project\\SistemaFactura\\Sistema_Factura\\Sistema_Factura.csproj": {}
+    "C:\\Users\\Abel\\Documents\\Visual Studio 2019\\Projects\\SistemaFactura\\Sistema_Factura\\Sistema_Factura.csproj": {}
   },
   "projects": {
-    "C:\\Users\\cabre\\Documents\\Visual Studio 2019\\Project\\SistemaFactura\\Sistema_Factura\\Sistema_Factura.csproj": {
+    "C:\\Users\\Abel\\Documents\\Visual Studio 2019\\Projects\\SistemaFactura\\Sistema_Factura\\Sistema_Factura.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\cabre\\Documents\\Visual Studio 2019\\Project\\SistemaFactura\\Sistema_Factura\\Sistema_Factura.csproj",
+        "projectUniqueName": "C:\\Users\\Abel\\Documents\\Visual Studio 2019\\Projects\\SistemaFactura\\Sistema_Factura\\Sistema_Factura.csproj",
         "projectName": "Sistema_Factura",
-        "projectPath": "C:\\Users\\cabre\\Documents\\Visual Studio 2019\\Project\\SistemaFactura\\Sistema_Factura\\Sistema_Factura.csproj",
-        "packagesPath": "C:\\Users\\cabre\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\cabre\\Documents\\Visual Studio 2019\\Project\\SistemaFactura\\Sistema_Factura\\obj\\",
+        "projectPath": "C:\\Users\\Abel\\Documents\\Visual Studio 2019\\Projects\\SistemaFactura\\Sistema_Factura\\Sistema_Factura.csproj",
+        "packagesPath": "C:\\Users\\Abel\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Abel\\Documents\\Visual Studio 2019\\Projects\\SistemaFactura\\Sistema_Factura\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\cabre\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Abel\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -89,7 +89,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
         }
       }
     }
