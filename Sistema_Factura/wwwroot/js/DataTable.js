@@ -33,15 +33,26 @@ $(document).ready(function () {
                 "width": "10%"
             },
             {
+                //"data": "productoId",
+                "width": "5%",
+                "render": function (data) {
+                    return `<div class='text-center'>
+                                <input type='text' class='form-control' value='1' id='txtCantidad' placeholder='Cantidad'>                                    
+                            </div>`
+
+                }
+            },
+            {
                 "data": "productoId",
                 "width": "10%",
                 "render": function (data) {
-                    return `<div class='text-center'>                    
-                                    <a onclick=Delete('/Product/DeleteByDataApiJson?TempProductoId='+${data}) class='btn btn-danger text-white' style='cursor:pointer'>Delete</a>                       
-                                 </div>`
+                    return `<div class='text-center'>                                    
+                                <a onclick=Agregar() class='btn btn-info text-white' style='cursor:pointer'> <i class='bi bi-cart-plus'></i></a>                       
+                            </div>`
 
                 }
-            }
+            },
+            
 
         ],
         "language": {
@@ -51,6 +62,12 @@ $(document).ready(function () {
         "bLengthChange": false,//Desabilita combobox cantidad de registro a ver en la tabla
         "ordering": false,// Ordering (Sorting on Each Column)will Be Disabled
         "bAutoWidth": false,//Desactiva el ancho automatico de cada columna
-        "lengthMenu": [[5,10, 25, 50, -1], [5,10, 25, 50, "All"]]//INICIALIZA 5 REGISTRO
+        "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],//INICIALIZA 5 REGISTRO
+       
     });
 });
+
+function Agregar() {
+    
+    alert($("#txtCantidad").val());
+}
