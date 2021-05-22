@@ -1,27 +1,26 @@
-﻿//Para su funcionamiento, agregar la librería(link) Ajax
+﻿//TECLA ENTER NIT, ENVIAR FUNCION
 $("#txtNitCliente").keypress(function (e) {
     if (e.which == 13) {
         e.preventDefault();
-        
+        NitIncorrecto();
     }
 });
 
+//SOBRESCRIBE TEXTO: CF
 function TextCF() {
-    $("#txtNitCliente").val('CF');
-    NotificacionNit();
+    $("#txtNitCliente").val('CF');    
 }
+//SOBRESCRIBE TEXTO: CIUDAD
 function TextCiudad() {
     $("#txtDireccionCliente").val('Ciudad');
 }
 
-
-function NotificacionNit() {    
-    // Override global options
-    toastr.error('El NIT ingresado no está registrado en nuestro sistema!');
-    toastr.options.extendedTimeOut = 3000; // How long the toast will display after a user hovers over it
-    toastr.options.timeOut = 10000; // How long the toast will display without user interaction
-
-    toastr.options.progressBar = true;
-   
-
+//NOTIFICACION NIT INCORRECTO
+function NitIncorrecto() {       
+    toastr.options = {
+        "timeOut": 15000,
+        "closeButton": true,
+        "progressBar": true
+    };
+    toastr.error("El NIT ingresado es inválido o no está registrado en nuestro sistema!", "NIT NO RECONOCIDO");  
 }
