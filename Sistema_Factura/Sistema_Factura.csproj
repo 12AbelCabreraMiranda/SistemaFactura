@@ -19,6 +19,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\Cliente\Data\" />
+    <Folder Include="Areas\Cliente\Models\" />
     <Folder Include="Areas\CrearFactura\Data\" />
     <Folder Include="Areas\CrearFactura\Models\" />
   </ItemGroup>

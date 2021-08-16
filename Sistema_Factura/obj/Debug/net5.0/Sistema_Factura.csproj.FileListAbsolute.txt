@@ -1333,3 +1333,4 @@ C:\Users\Abel\Documents\Visual Studio 2019\Projects\SistemaFactura\Sistema_Factu
 C:\Users\Abel\Documents\Visual Studio 2019\Projects\SistemaFactura\Sistema_Factura\obj\Debug\net5.0\Sistema_Factura.genruntimeconfig.cache
 C:\Users\Abel\Documents\Visual Studio 2019\Projects\SistemaFactura\Sistema_Factura\obj\Debug\net5.0\Razor\Areas\CrearFactura\Views\CrearFactura\CrearFactura.cshtml.g.cs
 C:\Users\cabre\Documents\Visual Studio 2019\Project\SistemaFactura\Sistema_Factura\obj\Debug\net5.0\Razor\Areas\CrearFactura\Views\CrearFactura\CrearFactura.cshtml.g.cs
+C:\Users\cabre\Documents\Visual Studio 2019\Project\SistemaFactura\Sistema_Factura\obj\Debug\net5.0\Razor\Areas\Cliente\Views\Cliente\Index.cshtml.g.cs

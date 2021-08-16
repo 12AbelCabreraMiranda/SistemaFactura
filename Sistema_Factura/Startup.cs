@@ -6,6 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Sistema_Factura.DataContext;
+using Sistema_Factura.Repository;
+using Sistema_Factura.Repository.IRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +30,9 @@ namespace Sistema_Factura
             //Configuration Connection with DataBase
             services.AddDbContext<Sistema_FacturaContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            //Inyectando Interfaz
+            services.AddScoped<IClienteRepository, ClienteRepository>();
+
             services.AddControllersWithViews();
         }
 
@@ -57,6 +62,7 @@ namespace Sistema_Factura
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapAreaControllerRoute("CrearFactura", "CrearFactura", "{controller=CrearFactura}/{action=CrearFactura}/{id?}");
+                endpoints.MapAreaControllerRoute("Cliente", "Cliente", "{controller=Cliente}/{action=Index}/{id?}");
             });
         }
     }
