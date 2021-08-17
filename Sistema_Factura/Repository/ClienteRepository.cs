@@ -1,4 +1,5 @@
-﻿using Sistema_Factura.DataContext;
+﻿using Microsoft.EntityFrameworkCore;
+using Sistema_Factura.DataContext;
 using Sistema_Factura.Models;
 using Sistema_Factura.Repository.IRepository;
 using System;
@@ -53,9 +54,21 @@ namespace Sistema_Factura.Repository
             return _db.Cliente.FirstOrDefault(c => c.ClienteId == ClienteId);
         }
 
-        public ICollection<Cliente> GetClientes()
+        public async Task<List<Cliente>> GetClientes()
         {
-            return _db.Cliente.OrderBy(c => c.NombreCliente).ToList();
+            var cliente = new List<Cliente>();
+
+            try
+            {
+                cliente = await _db.Cliente.OrderBy(c => c.NombreCliente).ToListAsync();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return cliente;
+            //return await _db.Cliente.OrderBy(c => c.NombreCliente).ToListAsync();
         }
 
         public bool Guardar()

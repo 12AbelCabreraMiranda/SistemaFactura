@@ -20,9 +20,9 @@ namespace Sistema_Factura.Areas.Cliente.Controllers
         }
 
         //METODO QUE TRAE TODO LOS DATOS EN LA TABLA DE LA DB CLIENTE
-        public JsonResult GetClientes()
+        public async Task<JsonResult> GetClientesAsync()
         {
-            return Json(_clRepo.GetClientes());
+            return Json(await _clRepo.GetClientes());
         }
     }
 }

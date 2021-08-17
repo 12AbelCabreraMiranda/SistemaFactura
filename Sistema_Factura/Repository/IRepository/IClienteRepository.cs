@@ -8,7 +8,7 @@ namespace Sistema_Factura.Repository.IRepository
 {
     public interface IClienteRepository
     {
-        ICollection<Cliente> GetClientes();
+        Task<List<Cliente>> GetClientes();
         Cliente GetCliente(int ClienteId);
         bool ExisteCliente(string nombre);
         bool ExisteCliente(int id);
