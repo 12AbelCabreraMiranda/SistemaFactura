@@ -17,7 +17,7 @@ function loadData() {
                 html += '<td>' + item.clienteId + '</td>';
                 html += '<td>' + item.nombreCliente + '</td>';
                 html += '<td>' + item.nit + '</td>';                
-                html += '<td><a style="color:white" type="button" class="btn btn-info" onclick="return getbyID(' + item.clienteId + ')"><i class="bi bi-pencil-square"></i>&nbsp;Edit</a>  <a style="color:white" type="button" class="btn btn-danger" onclick="Delele(' + item.clienteId + ')"><i class="bi bi-trash"></i>&nbsp;Delete</a></td>';
+                html += '<td><a style="color:white" type="button" class="btn btn-info" onclick="return getbyID(' + item.clienteId + ')"><i class="bi bi-pencil-square"></i>&nbsp;Editar</a>  <a style="color:white" type="button" class="btn btn-danger" onclick="Delele(' + item.clienteId + ')"><i class="bi bi-trash"></i>&nbsp;Eliminar</a></td>';
                 html += '</tr>';
             });
             $('.TBodyCliente').html(html);

@@ -6,8 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Sistema_Factura.DataContext;
-using Sistema_Factura.Repository;
-using Sistema_Factura.Repository.IRepository;
+using Sistema_Factura.Middleware;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,8 +29,9 @@ namespace Sistema_Factura
             //Configuration Connection with DataBase
             services.AddDbContext<Sistema_FacturaContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            //Inyectando Interfaz
-            services.AddScoped<IClienteRepository, ClienteRepository>();
+            
+            // Middleware Inyección de Dependencias
+            IoC.AddDependency(services);
 
             services.AddControllersWithViews();
         }
