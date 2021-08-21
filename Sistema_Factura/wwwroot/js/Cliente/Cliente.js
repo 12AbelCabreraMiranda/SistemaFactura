@@ -27,3 +27,5 @@ function loadData() {
         }
     });
 }
+//FUNCION CREAR CLIENTE
+

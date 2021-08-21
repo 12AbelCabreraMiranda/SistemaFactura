@@ -20,10 +20,20 @@ namespace Sistema_Factura.Controllers
             return View();
         }
         //METODO QUE LISTA LOS PRODUCTOS CON ESTADO==1
-        public async Task<ActionResult> ProductosRegistrados()
-        {            
-            var produc = await _context.Producto.Where(x => x.EstadoProducto == 1).ToListAsync();
-            return View(produc);
+        //public async Task<ActionResult> ProductosRegistrados()
+        //{            
+        //    //UNA MANERA DE TRAER EL LISTADO DE PRODUCTOS
+        //    var produc = await _context.Producto.Where(x => x.EstadoProducto == 1).ToListAsync();
+        //    return View(produc);            
+
+        //}
+        public async Task<List<Producto>> ProductosRegistrados()
+        {
+            //SEGUNDA MANERA DE TRAER EL LISTADO DE PRODUCTOS
+            var ListaProducto = new List<Producto>();
+            ListaProducto = await _context.Producto.Where(x => x.EstadoProducto == 1).ToListAsync();
+
+            return ListaProducto;
         }
 
         public IActionResult NuevoProducto()

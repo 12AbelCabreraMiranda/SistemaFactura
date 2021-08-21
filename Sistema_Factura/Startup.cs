@@ -62,7 +62,7 @@ namespace Sistema_Factura
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapAreaControllerRoute("CrearFactura", "CrearFactura", "{controller=CrearFactura}/{action=CrearFactura}/{id?}");
-                endpoints.MapAreaControllerRoute("Cliente", "Cliente", "{controller=Cliente}/{action=Index}/{id?}");
+                endpoints.MapAreaControllerRoute("Cliente", "Clientes", "{controller=Cliente}/{action=Index}/{id?}");
             });
         }
     }

@@ -17,50 +17,73 @@ namespace Sistema_Factura.Repository
         {
             _db = db;
         }
-        public bool ActualizarCliente(Cliente cliente)
+        
+        //METODO PARA ACUTALIZAR LOS DATOS DEL CLIENTE
+        public async Task<bool> ActualizarCliente(Cliente cliente)
         {
-            _db.Cliente.Update(cliente);
-            return Guardar();
+             _db.Cliente.Update(cliente);
+            return await Guardar();
         }
 
-        public bool BorrarCliente(Cliente cliente)
+        //METODO QUE BORRA O DA DE BAJA AL CLIENTE CAMBIANDO SU ESTADO
+        public async Task<bool> BorrarCliente(Cliente cliente)
         {
             _db.Cliente.Remove(cliente);
-            return Guardar();
+            return await Guardar();
         }
 
-        public bool CrearCliente(Cliente cliente)
-        {
-            _db.Cliente.Add(cliente);
-            return Guardar();
+        //METODO PARA CREAR UN REGISTRO NUEVO DE CLIENTE
+        public async Task<bool> CrearCliente(Cliente cliente)
+        {            
+            try
+            {
+                if(cliente != null)
+                {
+                    _db.Cliente.Add(cliente);
+                    return await Guardar();
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            
         }
 
-        public bool ExisteCliente(string nombre)
+        //METODO DE VERIFICACION SI EXISTE EL CLIENTE POR EL NOMBRE INGRESADO
+        public async Task<bool> ExisteCliente(string nombre)
         {
             //ToLower: Devuelve una copia de esta cadena convertida a minúsculas.
             //Trim: Elimina todos los caracteres de espacios en blanco iniciales y finales de la cadena actual.
-            bool valor = _db.Cliente
-                          .Any(c => c.NombreCliente.ToLower().Trim() == nombre.ToLower().Trim());
+            bool valor = await _db.Cliente
+                          .AnyAsync(c => c.NombreCliente.ToLower().Trim() == nombre.ToLower().Trim());
             return valor;
         }
 
-        public bool ExisteCliente(int id)
+        //METODO DE VERIFICACION SI EXISTE EL CLIENTE POR EL ID INGRESADO
+        public async Task<bool> ExisteCliente(int id)
         {
-            return _db.Cliente.Any(c => c.ClienteId == id);
+            return  await _db.Cliente.AnyAsync(c => c.ClienteId == id);
         }
 
+        //METODO QUE TRAE EL DATO DEL CLIENTE POR EL ID BUSCADO
         public Cliente GetCliente(int ClienteId)
         {
             return _db.Cliente.FirstOrDefault(c => c.ClienteId == ClienteId);
         }
 
+        //METODO QUE TRAE TODO LOS REGISTROS DEL CLIENTES
         public async Task<List<Cliente>> GetClientes()
         {
             var cliente = new List<Cliente>();
 
             try
             {
-                cliente = await _db.Cliente.OrderBy(c => c.NombreCliente).ToListAsync();
+                cliente = await _db.Cliente.OrderBy(c => c.NombreCliente).Where(c=>c.Estado==1).ToListAsync();
             }
             catch (Exception)
             {
@@ -71,9 +94,10 @@ namespace Sistema_Factura.Repository
             //return await _db.Cliente.OrderBy(c => c.NombreCliente).ToListAsync();
         }
 
-        public bool Guardar()
-        {
-            return _db.SaveChanges() >= 0 ? true : false;
+        //METODO QUE GUARDA LOS DATOS COMPROMETIDOS A LA BASE DE DATOS
+        public async Task<bool> Guardar()
+        {            
+            return await _db.SaveChangesAsync() >= 0 ? true : false;
         }
     }
 }
