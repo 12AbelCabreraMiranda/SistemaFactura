@@ -10,7 +10,7 @@ namespace Sistema_Factura.Repository.IRepository
     {
         Task<List<Cliente>> GetClientes();
         Cliente GetCliente(int ClienteId);
-        Task<bool> ExisteCliente(string nombre);
+        Task<bool> ExisteCliente(string nit);
         Task<bool> ExisteCliente(int id);
         Task<bool> CrearCliente(Cliente cliente);
         Task<bool> ActualizarCliente(Cliente cliente);

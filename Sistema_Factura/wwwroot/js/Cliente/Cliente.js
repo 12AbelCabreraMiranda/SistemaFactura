@@ -27,5 +27,64 @@ function loadData() {
         }
     });
 }
-//FUNCION CREAR CLIENTE
 
+//GUARDAR LOS DATOS EN EL MODELO
+function Add() {
+    var res = validate();
+    if (res == false) {
+        return false;
+    }
+    $.ajax({
+        url: '/Cliente/CrearClientes',
+        data: {
+            //UsuarioId: $('#txtClienteId').val(),
+            NombreCliente: $('#txtNombreCliente').val(),
+            Nit: $('#txtNit').val()
+        },
+        type: 'POST',
+        success: function (result) {
+            loadData();
+            if (result == true) {
+                $('#myModal').modal('hide');
+                msjExito();                
+            } else {
+                //$('#myModal').modal('hide');
+                $("#MsjError").html("<div class='alert alert-danger' role='alert'>El NIT ya existe...!</div >");
+            }
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}
+
+//VALIDACIÓN DE CAMPOS DE TEXTOS
+function validate() {
+    var isValid = true;
+    if ($('#txtNombreCliente').val().trim() == "") {
+        $('#txtNombreCliente').css('border-color', 'Red');
+        isValid = false;
+    }
+    else {
+        $('#txtNombreCliente').css('border-color', 'lightgrey');
+    }
+    if ($('#txtNit').val().trim() == "") {
+        $('#txtNit').css('border-color', 'Red');
+        isValid = false;
+    }
+    else {
+        $('#txtNit').css('border-color', 'lightgrey');
+    }
+    return isValid;
+}
+
+function msjExito() {
+    
+    toastr.options = {
+        "timeOut": 15000,
+        "closeButton": true,
+        "progressBar": true
+    };
+    toastr.success("Registro guardado con éxito!", "SUCCESSFUL");
+    
+}

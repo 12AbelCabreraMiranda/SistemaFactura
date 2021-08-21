@@ -21,7 +21,7 @@ namespace Sistema_Factura.Areas.Clientes.Controllers
         }
 
         //METODO: OBTIENE LA LISTA DE TODOS LOS CLIENTES
-        public async Task<JsonResult> GetClientesAsync()
+        public async Task<JsonResult> GetClientes()
         {
             return Json(await _clRepo.GetClientes());
         }
@@ -32,13 +32,19 @@ namespace Sistema_Factura.Areas.Clientes.Controllers
         {
             bool createdCliente = false;
             
-            if(await _clRepo.ExisteCliente(clienteModel.NombreCliente))
+            if(await _clRepo.ExisteCliente(clienteModel.Nit))
             {
                 return createdCliente;
             }
             else
             {
-                await _clRepo.CrearCliente(clienteModel);
+                var cliente = new Cliente()
+                {
+                    NombreCliente = clienteModel.NombreCliente,
+                    Nit = clienteModel.Nit,
+                    Estado=1
+                };
+                await _clRepo.CrearCliente(cliente);
                 createdCliente = true;
             }            
             return createdCliente;

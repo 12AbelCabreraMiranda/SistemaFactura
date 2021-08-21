@@ -55,12 +55,12 @@ namespace Sistema_Factura.Repository
         }
 
         //METODO DE VERIFICACION SI EXISTE EL CLIENTE POR EL NOMBRE INGRESADO
-        public async Task<bool> ExisteCliente(string nombre)
+        public async Task<bool> ExisteCliente(string nit)
         {
             //ToLower: Devuelve una copia de esta cadena convertida a minúsculas.
             //Trim: Elimina todos los caracteres de espacios en blanco iniciales y finales de la cadena actual.
             bool valor = await _db.Cliente
-                          .AnyAsync(c => c.NombreCliente.ToLower().Trim() == nombre.ToLower().Trim());
+                          .AnyAsync(c => c.Nit.ToLower().Trim() == nit.ToLower().Trim());
             return valor;
         }
 
