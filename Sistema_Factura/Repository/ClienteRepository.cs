@@ -67,10 +67,22 @@ namespace Sistema_Factura.Repository
         }
 
         //METODO QUE BORRA O DA DE BAJA AL CLIENTE CAMBIANDO SU ESTADO
-        public async Task<bool> BorrarCliente(Cliente cliente)
+        public async Task<bool> BorrarCliente(int ClienteId)
         {
-            _db.Cliente.Remove(cliente);
-            return await Guardar();
+            bool updateCliente = false;
+            try
+            {
+                var deletedCliente = await _db.Cliente.Where(c => c.ClienteId.Equals(ClienteId)).FirstOrDefaultAsync();
+                deletedCliente.Estado = 0; 
+                _db.Cliente.Update(deletedCliente);
+                await Guardar();
+                updateCliente = true;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return updateCliente;
         }
 
         //METODO PARA CREAR UN REGISTRO NUEVO DE CLIENTE
@@ -97,7 +109,7 @@ namespace Sistema_Factura.Repository
 
         //METODO DE VERIFICACION SI EXISTE EL CLIENTE POR EL NOMBRE INGRESADO
         public async Task<bool> ExisteCliente(string nit)
-        {            
+        {
             //Trim: Elimina todos los caracteres de espacios en blanco iniciales y finales de la cadena actual.
             bool valor = await _db.Cliente
                           .AnyAsync(c => c.Nit.Trim() == nit.Trim());
@@ -105,11 +117,11 @@ namespace Sistema_Factura.Repository
         }
 
         //METODO DE VERIFICACION SI EXISTE EL CLIENTE POR EL ID INGRESADO
-        public async Task<bool> ExisteCliente(int id)
-        {
-            bool x= await _db.Cliente.AnyAsync(c => c.ClienteId == id);            
-            return x;
-        }
+        //public async Task<bool> ExisteCliente(int id)
+        //{
+        //    bool x= await _db.Cliente.AnyAsync(c => c.ClienteId == id);            
+        //    return x;
+        //}
 
         //METODO QUE TRAE EL DATO DEL CLIENTE POR EL ID BUSCADO
         public Cliente GetCliente(int ClienteId)

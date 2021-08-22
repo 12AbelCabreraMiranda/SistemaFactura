@@ -114,6 +114,25 @@ function Update() {
     });
 }  
 
+//ELIMINA UN REGISTRO
+function Delele(ID) {
+    //var ans = confirm("Are you sure you want to delete this Record?");
+    Confirmacion(undefined, function () {
+        $.ajax({
+            url: "/Cliente/BorrarCliente/" + ID,
+            type: "POST",
+            contentType: "application/json;charset=UTF-8",
+            dataType: "json",
+            success: function (result) {
+                loadData();
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    })   
+}
+
 //VALIDACIÓN DE CAMPOS DE TEXTOS
 function validate() {
     var isValid = true;
@@ -143,4 +162,37 @@ function msjExito() {
     };
     toastr.success("Registro guardado con éxito!", "SUCCESSFUL");
     
+}
+
+//ALERTAS
+function Error( titulo="Error",texto="Ocurrió un error") {
+    Swal.fire({
+        icon: 'error',
+        title: titulo,
+        text: texto,        
+    })
+}
+//CONFIRMACIÓN PARA ELIMINAR EL REGISTRO SELECCIONADO
+function Confirmacion(texto ="¿Está seguro de eliminar este registro?",callback) {
+    Swal.fire({
+        title: 'Eliminar Registro',
+        text: texto,
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si',
+        cancelButtonText: "Cancelar",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            callback()
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Registro eliminado con éxito!',
+                showConfirmButton: false,
+                timer: 2000
+            })           
+        }
+    })
 }

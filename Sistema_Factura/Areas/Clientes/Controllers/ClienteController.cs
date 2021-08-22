@@ -49,16 +49,26 @@ namespace Sistema_Factura.Areas.Clientes.Controllers
             }            
             return createdCliente;
         }
+        
         //METODO QUE EXTRAE LOS DATOS PARA ACTUALIZAR
         public Cliente GetCliente(int Id)
         {
             var cliente = _clRepo.GetCliente(Id);
             return cliente;
         }
+        
         //METODO ACTUALIZAR CLIENTE
         public async Task<bool> ActualizarCliente(Cliente clienteModel)
         {                        
             return await _clRepo.ActualizarCliente(clienteModel);
         }
+
+        //METODO ELIMINAR(UPDATE ESTADO) DEL CLIENTE
+        public async Task<bool> BorrarCliente(int Id)
+        {
+            return await _clRepo.BorrarCliente(Id);
+        }
+
+
     }
 }
