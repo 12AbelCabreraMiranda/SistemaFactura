@@ -1,5 +1,5 @@
 ﻿//FUNCION QUE INICIALIZA LOS DATOS EN LA TABLA
-$(document).ready(function () {
+$(document).ready(function () {    
     loadData();
 });
 
@@ -57,6 +57,62 @@ function Add() {
         }
     });
 }
+//MUESTRA DATOS SELECCIONADO PARA ACTUALIZAR
+function getbyID(Id) {
+    $('#txtNombreCliente').css('border-color', 'lightgrey');
+    $('#txtNit').css('border-color', 'lightgrey');    
+
+    $.ajax({
+        url: "/Cliente/GetCliente/" + Id,
+        type: "GET",
+        success: function (result) {
+            $('#txtClienteId').val(result.clienteId);
+            $('#txtNombreCliente').val(result.nombreCliente);
+            $('#txtNit').val(result.nit);
+            $('#myModal').modal('show');
+            $('#btnUpdate').show();
+            $('#btnAdd').hide();
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+    return false;
+}
+
+//ACTUALIZA DATOS
+function Update() {
+    var res = validate();
+    if (res == false) {
+        return false;
+    }
+    $.ajax({
+        url: "/Cliente/ActualizarCliente",
+        data: {
+            ClienteId: $('#txtClienteId').val(),
+            NombreCliente: $('#txtNombreCliente').val(),
+            Nit: $('#txtNit').val()            
+        },
+        type: "POST",
+        success: function (result) {
+            loadData();
+            if (result == true) {
+                $('#myModal').modal('hide');
+                $('#txtClienteId').val("");
+                $('#txtNombreCliente').val("");
+                $('#txtNit').val("");
+
+                $("#Mensaje").html("<div class='alert alert-success' role='alert'>Cliente Actualizado con Exito</div >");
+            } else {
+                //$('#myModal').modal('hide');
+                $("#MsjError").html("<div class='alert alert-danger' role='alert'>El Cliente ya existe...!</div >");
+            }
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
+        }
+    });
+}  
 
 //VALIDACIÓN DE CAMPOS DE TEXTOS
 function validate() {

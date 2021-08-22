@@ -21,8 +21,49 @@ namespace Sistema_Factura.Repository
         //METODO PARA ACUTALIZAR LOS DATOS DEL CLIENTE
         public async Task<bool> ActualizarCliente(Cliente cliente)
         {
-             _db.Cliente.Update(cliente);
-            return await Guardar();
+            bool updateCliente = false;                    
+            try
+            {
+                //FIND ID DEL CLIENTE / SI NO MODIFICA EL NIT
+                var findNit = await _db.Cliente.Where(c => c.ClienteId.Equals(cliente.ClienteId)).FirstOrDefaultAsync();
+
+                if (findNit.Nit.Equals(cliente.Nit))
+                {
+                    findNit.NombreCliente = cliente.NombreCliente;
+                    findNit.Nit = cliente.Nit;
+                    _db.Cliente.Update(findNit);
+                    
+                    await Guardar();
+                    updateCliente = true;
+                }
+                else
+                {
+                    if (findNit.ClienteId.Equals(cliente.ClienteId) && findNit.Nit !=cliente.Nit)
+                    {
+                        //CONSULTAR SI EXISTE EN LA LISTA EL NUEVO NIT A ACTUALIZAR / SI MODIFICA EL NIT
+                        var searchNit = await _db.Cliente.Where(c => c.Nit.Equals(cliente.Nit)).ToListAsync();
+                        if (!searchNit.Count.Equals(0))
+                        {
+                            await ExisteCliente(cliente.Nit);
+                            updateCliente = false;
+                        }
+                        else
+                        {
+                            findNit.NombreCliente = cliente.NombreCliente;
+                            findNit.Nit = cliente.Nit;
+                            _db.Cliente.Update(findNit);
+
+                            await Guardar();
+                            updateCliente = true;
+                        }                        
+                    }                                                           
+                }                               
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return updateCliente;
         }
 
         //METODO QUE BORRA O DA DE BAJA AL CLIENTE CAMBIANDO SU ESTADO
@@ -56,18 +97,18 @@ namespace Sistema_Factura.Repository
 
         //METODO DE VERIFICACION SI EXISTE EL CLIENTE POR EL NOMBRE INGRESADO
         public async Task<bool> ExisteCliente(string nit)
-        {
-            //ToLower: Devuelve una copia de esta cadena convertida a minúsculas.
+        {            
             //Trim: Elimina todos los caracteres de espacios en blanco iniciales y finales de la cadena actual.
             bool valor = await _db.Cliente
-                          .AnyAsync(c => c.Nit.ToLower().Trim() == nit.ToLower().Trim());
+                          .AnyAsync(c => c.Nit.Trim() == nit.Trim());
             return valor;
         }
 
         //METODO DE VERIFICACION SI EXISTE EL CLIENTE POR EL ID INGRESADO
         public async Task<bool> ExisteCliente(int id)
         {
-            return  await _db.Cliente.AnyAsync(c => c.ClienteId == id);
+            bool x= await _db.Cliente.AnyAsync(c => c.ClienteId == id);            
+            return x;
         }
 
         //METODO QUE TRAE EL DATO DEL CLIENTE POR EL ID BUSCADO
