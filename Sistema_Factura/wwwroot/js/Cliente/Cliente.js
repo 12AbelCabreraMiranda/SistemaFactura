@@ -102,7 +102,7 @@ function Update() {
                 $('#txtNombreCliente').val("");
                 $('#txtNit').val("");
 
-                $("#Mensaje").html("<div class='alert alert-success' role='alert'>Cliente Actualizado con Exito</div >");
+                actualizadoExito();
             } else {
                 //$('#myModal').modal('hide');
                 $("#MsjError").html("<div class='alert alert-danger' role='alert'>El Cliente ya existe...!</div >");
@@ -133,6 +133,17 @@ function Delele(ID) {
     })   
 }
 
+//LIMPIA LOS CAMPOS DE TEXTOS
+function clearTextBox() {
+    $('#txtClienteId').val("");
+    $('#txtNombreCliente').val("");
+    $('#txtNit').val("");
+    $('#btnUpdate').hide();
+    $('#btnAdd').show();
+    $('#txtNombreCliente').css('border-color', 'lightgrey');
+    $('#txtNit').css('border-color', 'lightgrey');    
+}
+
 //VALIDACIÓN DE CAMPOS DE TEXTOS
 function validate() {
     var isValid = true;
@@ -153,17 +164,22 @@ function validate() {
     return isValid;
 }
 
-function msjExito() {
-    
+function msjExito() {    
     toastr.options = {
-        "timeOut": 15000,
+        "timeOut": 5000,
         "closeButton": true,
         "progressBar": true
     };
-    toastr.success("Registro guardado con éxito!", "SUCCESSFUL");
-    
+    toastr.success("Registro guardado con éxito!", "SUCCESSFUL");    
 }
-
+function actualizadoExito() {
+    toastr.options = {
+        "timeOut": 5000,
+        "closeButton": true,
+        "progressBar": true
+    };
+    toastr.success("Registro Actualizado con éxito!", "SUCCESSFUL");
+}
 //ALERTAS
 function Error( titulo="Error",texto="Ocurrió un error") {
     Swal.fire({
