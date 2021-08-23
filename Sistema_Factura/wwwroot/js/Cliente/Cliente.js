@@ -1,6 +1,6 @@
 ﻿//FUNCION QUE INICIALIZA LOS DATOS EN LA TABLA
 $(document).ready(function () {    
-    loadData();
+    loadData();    
 });
 
 //FUNCION LISTA DE DATOS EN TABLA
@@ -115,15 +115,14 @@ function Update() {
 }  
 
 //ELIMINA UN REGISTRO
-function Delele(ID) {
-    //var ans = confirm("Are you sure you want to delete this Record?");
-    Confirmacion(undefined, function () {
+function Delele(ID) {           
+    Confirmacion(ID,undefined, function () {
         $.ajax({
             url: "/Cliente/BorrarCliente/" + ID,
             type: "POST",
             contentType: "application/json;charset=UTF-8",
             dataType: "json",
-            success: function (result) {
+            success: function (result) {                
                 loadData();
             },
             error: function (errormessage) {
@@ -189,26 +188,37 @@ function Error( titulo="Error",texto="Ocurrió un error") {
     })
 }
 //CONFIRMACIÓN PARA ELIMINAR EL REGISTRO SELECCIONADO
-function Confirmacion(texto ="¿Está seguro de eliminar este registro?",callback) {
-    Swal.fire({
-        title: 'Eliminar Registro',
-        text: texto,
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Si',
-        cancelButtonText: "Cancelar",
-    }).then((result) => {
-        if (result.isConfirmed) {
-            callback()
+function Confirmacion(Id,texto = "¿Está seguro de eliminar este registro?", callback) {    
+    $.ajax({
+        url: "/Cliente/GetCliente/" + Id,
+        type: "GET",
+        success: function (result) {
+            var datoSelected = result.nombreCliente;            
+            //ALERT                      
             Swal.fire({
-                position: 'top-end',
-                icon: 'success',
-                title: 'Registro eliminado con éxito!',
-                showConfirmButton: false,
-                timer: 2000
-            })           
+                title: 'Eliminar Registro',                
+                html: texto + "<br/> "+ '<b>' +datoSelected + '</b>',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Si, Eliminarlo.!',
+                cancelButtonText: "Cancelar",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    callback()
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: 'Registro eliminado con éxito!',
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+                }
+            })
+        },
+        error: function (errormessage) {
+            alert(errormessage.responseText);
         }
-    })
+    });
 }

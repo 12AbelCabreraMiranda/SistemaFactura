@@ -848,7 +848,6 @@ C:\Users\cabre\Documents\Visual Studio 2019\Project\SistemaFactura\Sistema_Factu
 C:\Users\cabre\Documents\Visual Studio 2019\Project\SistemaFactura\Sistema_Factura\bin\Debug\net5.0\runtimes\win-arm64\lib\net5.0\dotnet-aspnet-codegenerator-design.exe
 C:\Users\cabre\Documents\Visual Studio 2019\Project\SistemaFactura\Sistema_Factura\bin\Debug\net5.0\runtimes\win\lib\netstandard2.0\System.Runtime.Caching.dll
 C:\Users\cabre\Documents\Visual Studio 2019\Project\SistemaFactura\Sistema_Factura\bin\Debug\net5.0\runtimes\win\lib\netstandard2.0\System.Security.Cryptography.ProtectedData.dll
-C:\Users\cabre\Documents\Visual Studio 2019\Project\SistemaFactura\Sistema_Factura\obj\Debug\net5.0\Sistema_Factura.csprojAssemblyReference.cache
 C:\Users\cabre\Documents\Visual Studio 2019\Project\SistemaFactura\Sistema_Factura\obj\Debug\net5.0\Sistema_Factura.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\cabre\Documents\Visual Studio 2019\Project\SistemaFactura\Sistema_Factura\obj\Debug\net5.0\Sistema_Factura.AssemblyInfoInputs.cache
 C:\Users\cabre\Documents\Visual Studio 2019\Project\SistemaFactura\Sistema_Factura\obj\Debug\net5.0\Sistema_Factura.AssemblyInfo.cs
@@ -1335,3 +1334,4 @@ C:\Users\Abel\Documents\Visual Studio 2019\Projects\SistemaFactura\Sistema_Factu
 C:\Users\cabre\Documents\Visual Studio 2019\Project\SistemaFactura\Sistema_Factura\obj\Debug\net5.0\Razor\Areas\CrearFactura\Views\CrearFactura\CrearFactura.cshtml.g.cs
 C:\Users\cabre\Documents\Visual Studio 2019\Project\SistemaFactura\Sistema_Factura\obj\Debug\net5.0\Razor\Areas\Clientes\Views\Cliente\Index.cshtml.g.cs
 C:\Users\cabre\Documents\Visual Studio 2019\Project\SistemaFactura\Sistema_Factura\obj\Debug\net5.0\Razor\Areas\Clientes\Views\_ViewImports.cshtml.g.cs
+C:\Users\cabre\Documents\Visual Studio 2019\Project\SistemaFactura\Sistema_Factura\obj\Debug\net5.0\Sistema_Factura.csprojAssemblyReference.cache
