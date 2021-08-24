@@ -1,32 +1,47 @@
 ﻿//FUNCION QUE INICIALIZA LOS DATOS EN LA TABLA
+var dataTable;//VARIABLE GLOBAL PARA PODER INVOCARLO EN OTROS METODOS Y RECARGAR SUS DATOS
 $(document).ready(function () {    
-    loadData();    
+    
+        dataTable = $('#TBodyCliente').DataTable({
+            "ajax": {
+                "url": "/Cliente/GetClientes",
+                "type": "GET",
+                "datatype": "json"
+            },
+            "columns": [
+                {
+                    "data": "clienteId",
+                    "width": "20%"
+                },
+                {
+                    "data": "nombreCliente",
+                    "width": "35%"
+                },
+                {
+                    "data": "nit",
+                    "width": "20%"
+                },
+                {
+                    "data": "clienteId",
+                    "width": "25%",
+                    "render": function (data) {
+                        return "<a onclick='getbyID(" + data + ")' class='btn btn-info text-white'  style='cursor:pointer'> <i class='bi bi-check2-square'></i> Editar </a>" + " "+
+                               "<a onclick='Delele(" + data + ")' class='btn btn-danger text-white'  style='cursor:pointer'> <i class='bi bi-trash'></i> Eliminar </a>" 
+                    }
+                },
+            ],
+           
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"//LENGUAJE ESPAÑOL DATATABLE
+            },
+            "width": "100%",
+            "bLengthChange": false,//Disable select record quantity to view in table
+            "ordering": false,// Ordering (Sorting on Each Column)will Be Disabled
+            "bAutoWidth": false,//Disable the automatic width of each column
+            "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],//Initialize view of 5 records in table            
+        });
+   
 });
-
-//FUNCION LISTA DE DATOS EN TABLA
-function loadData() {
-    $.ajax({
-        url: "/Cliente/GetClientes",
-        type: "GET",
-        contentType: "application/json;charset=utf-8",
-        dataType: "json",
-        success: function (result) {
-            var html = '';
-            $.each(result, function (key, item) {
-                html += '<tr>';
-                html += '<td>' + item.clienteId + '</td>';
-                html += '<td>' + item.nombreCliente + '</td>';
-                html += '<td>' + item.nit + '</td>';                
-                html += '<td><a style="color:white" type="button" class="btn btn-info" onclick="return getbyID(' + item.clienteId + ')"><i class="bi bi-pencil-square"></i>&nbsp;Editar</a>  <a style="color:white" type="button" class="btn btn-danger" onclick="Delele(' + item.clienteId + ')"><i class="bi bi-trash"></i>&nbsp;Eliminar</a></td>';
-                html += '</tr>';
-            });
-            $('.TBodyCliente').html(html);
-        },
-        error: function (errormessage) {
-            alert(errormessage.responseText);
-        }
-    });
-}
 
 //GUARDAR LOS DATOS EN EL MODELO
 function Add() {
@@ -43,7 +58,7 @@ function Add() {
         },
         type: 'POST',
         success: function (result) {
-            loadData();
+                dataTable.ajax.reload();
             if (result == true) {
                 $('#myModal').modal('hide');
                 msjExito();                
@@ -95,7 +110,8 @@ function Update() {
         },
         type: "POST",
         success: function (result) {
-            loadData();
+            //loadData();
+            dataTable.ajax.reload();
             if (result == true) {
                 $('#myModal').modal('hide');
                 $('#txtClienteId').val("");
@@ -123,7 +139,7 @@ function Delele(ID) {
             contentType: "application/json;charset=UTF-8",
             dataType: "json",
             success: function (result) {                
-                loadData();
+                dataTable.ajax.reload();
             },
             error: function (errormessage) {
                 alert(errormessage.responseText);
@@ -163,62 +179,34 @@ function validate() {
     return isValid;
 }
 
-function msjExito() {    
-    toastr.options = {
-        "timeOut": 5000,
-        "closeButton": true,
-        "progressBar": true
-    };
-    toastr.success("Registro guardado con éxito!", "SUCCESSFUL");    
-}
-function actualizadoExito() {
-    toastr.options = {
-        "timeOut": 5000,
-        "closeButton": true,
-        "progressBar": true
-    };
-    toastr.success("Registro Actualizado con éxito!", "SUCCESSFUL");
-}
-//ALERTAS
-function Error( titulo="Error",texto="Ocurrió un error") {
-    Swal.fire({
-        icon: 'error',
-        title: titulo,
-        text: texto,        
-    })
-}
 //CONFIRMACIÓN PARA ELIMINAR EL REGISTRO SELECCIONADO
 function Confirmacion(Id,texto = "¿Está seguro de eliminar este registro?", callback) {    
     $.ajax({
         url: "/Cliente/GetCliente/" + Id,
         type: "GET",
         success: function (result) {
-            var datoSelected = result.nombreCliente;            
-            //ALERT                      
-            Swal.fire({
-                title: 'Eliminar Registro',                
-                html: texto + "<br/> "+ '<b>' +datoSelected + '</b>',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#d33',
-                cancelButtonColor: '#3085d6',
-                confirmButtonText: 'Si, Eliminarlo.!',
-                cancelButtonText: "Cancelar",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    callback()
-                    Swal.fire({
-                        position: 'top-end',
-                        icon: 'success',
-                        title: 'Registro eliminado con éxito!',
-                        showConfirmButton: false,
-                        timer: 2000
-                    })
-                }
-            })
+            var datoSelected = result.nombreCliente;     
+            AlertConfirmarDeleted(texto, datoSelected, callback);           
         },
         error: function (errormessage) {
             alert(errormessage.responseText);
         }
     });
+}
+function AlertConfirmarDeleted(texto,datoSelected,callback){
+    Swal.fire({
+        title: 'Eliminar Registro',
+        html: texto + "<br/> " + '<b>' + datoSelected + '</b>',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#3085d6',
+        confirmButtonText: 'Si, Eliminarlo.!',
+        cancelButtonText: "Cancelar",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            callback()
+            MensajeEliminado();//TRAE LA FUNCION DESDE GENERICO
+        }
+    })
 }

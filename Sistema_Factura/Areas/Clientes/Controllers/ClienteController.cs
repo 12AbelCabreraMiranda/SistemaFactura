@@ -23,7 +23,8 @@ namespace Sistema_Factura.Areas.Clientes.Controllers
         //METODO: OBTIENE LA LISTA DE TODOS LOS CLIENTES
         public async Task<JsonResult> GetClientes()
         {
-            return Json(await _clRepo.GetClientes());
+            return Json(new { data = await _clRepo.GetClientes() });
+            //return Json(await _clRepo.GetClientes());
         }
 
         //METODO CREAR CLIENTE

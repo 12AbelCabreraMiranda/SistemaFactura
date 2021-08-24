@@ -1,0 +1,34 @@
+﻿<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="myModalLabel">Agregar datos del cliente</h4>
+                <button type="button" class="close" data-dismiss="modal">×</button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label>ID</label>
+                        <input type="text" class="form-control" id="txtClienteId" placeholder="Id" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre</label>
+                        <input type="text" class="form-control" id="txtNombreCliente" placeholder="Nombre" />
+                    </div>
+                    <div class="form-group">
+                        <label>Nit</label>
+                        <input type="text" class="form-control" id="txtNit" placeholder="Nit" />
+                    </div>
+                    <div id="MsjError"></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" id="btnAdd" onclick="Add();">Guardar</button>
+
+                <button type="button" class="btn btn-success" id="btnUpdate" style="display:none;" onclick="Update();">Update</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+
+            </div>
+        </div>
+    </div>
+</div>
