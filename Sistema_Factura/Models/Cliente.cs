@@ -15,6 +15,9 @@ namespace Sistema_Factura.Models
         public string NombreCliente { get; set; }
         public string Nit { get; set; }
         public int Estado { get; set; }
+     
+        public string FechaRegistrado { get; set; }
+        public string HoraRegistrado { get; set; }
         //Relacion con Modelo: Factura
         public List<Factura> Factura { get; set; }
 

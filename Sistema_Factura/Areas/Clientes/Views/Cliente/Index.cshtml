@@ -5,7 +5,6 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css" />
-<link href="~/css/buttons.dataTables.min.css" rel="stylesheet" />
 
 
 
@@ -15,24 +14,25 @@
         <div class="card-header">
             <h5 class="text-center">Clientes Registrados</h5>
         </div>
-        <div class="card-body">  
+        <div class="card-body">
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" onclick="clearTextBox();">
                 <i class="bi bi-plus-circle-dotted"></i>&nbsp; Nuevo Usuario
             </button>
-            <table id="TBodyCliente" class=" table table-hover">
+            <table id="TBodyCliente" class="table">
                 @*HEADER DATA*@
                 <thead class="table-dark">
                     <tr>
                         <th>CODIGO CLIENTE</th>
+                        <th>FECHA REGISTRADO</th>
                         <th>NOMBRE</th>
                         <th>NIT</th>
                         <th></th>
                     </tr>
                 </thead>
-            </table>                            
+            </table>
         </div>
     </div>
-    
+
 </div>
 @*FORMULARIO MODAL: NEW AND UPDATE*@
 <partial name="_ModalNewAndUpdate" />
@@ -44,9 +44,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-
-    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-    <script src="~/js/buttons.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>    
     <script src="~/js/GenericoMsgAlertas.js"></script>
     <script src="~/js/Cliente/Cliente.js"></script>
 }

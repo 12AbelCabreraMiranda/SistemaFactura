@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Sistema_Factura.DataContext;
 
 namespace Sistema_Factura.Migrations
 {
     [DbContext(typeof(Sistema_FacturaContext))]
-    partial class Sistema_FacturaContextModelSnapshot : ModelSnapshot
+    [Migration("20210825002819_alterCliente_date")]
+    partial class alterCliente_date
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,9 +32,6 @@ namespace Sistema_Factura.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("FechaRegistrado")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("HoraRegistrado")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nit")

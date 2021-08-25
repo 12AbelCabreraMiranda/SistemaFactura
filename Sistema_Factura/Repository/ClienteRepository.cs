@@ -87,12 +87,23 @@ namespace Sistema_Factura.Repository
 
         //METODO PARA CREAR UN REGISTRO NUEVO DE CLIENTE
         public async Task<bool> CrearCliente(Cliente cliente)
-        {            
+        {
+            //OBTIENE FECHA DEL SISTEMA
+            var FechaSistema = DateTime.Now.ToString("dd-MM-yyyy");
+            var HoraSistema = DateTime.Now.ToString("hh:mm:ss tt");//tt : AM/PM
             try
             {
                 if(cliente != null)
                 {
-                    _db.Cliente.Add(cliente);
+                    var oCliente = new Cliente()
+                    {
+                        NombreCliente = cliente.NombreCliente,
+                        Nit = cliente.Nit,
+                        Estado = 1,
+                        FechaRegistrado = FechaSistema,
+                        HoraRegistrado=HoraSistema
+                    };
+                    _db.Cliente.Add(oCliente);
                     return await Guardar();
                 }
                 else
@@ -133,10 +144,19 @@ namespace Sistema_Factura.Repository
         public async Task<List<Cliente>> GetClientes()
         {
             var cliente = new List<Cliente>();
-
+           
             try
-            {
-                cliente = await _db.Cliente.OrderBy(c => c.NombreCliente).Where(c=>c.Estado==1).ToListAsync();
+            {               
+                cliente = await _db.Cliente.OrderBy(c => c.NombreCliente).
+                    Where(c=>c.Estado==1).Select(
+                    c=>new Cliente
+                    {
+                        ClienteId=c.ClienteId,
+                        FechaRegistrado =c.FechaRegistrado+" / "+c.HoraRegistrado,                         
+                        HoraRegistrado=c.HoraRegistrado,
+                        NombreCliente =c.NombreCliente,
+                        Nit=c.Nit
+                    }).ToListAsync();
             }
             catch (Exception)
             {

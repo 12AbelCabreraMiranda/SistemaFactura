@@ -38,14 +38,8 @@ namespace Sistema_Factura.Areas.Clientes.Controllers
                 return createdCliente;
             }
             else
-            {
-                var cliente = new Cliente()
-                {
-                    NombreCliente = clienteModel.NombreCliente,
-                    Nit = clienteModel.Nit,
-                    Estado=1
-                };
-                await _clRepo.CrearCliente(cliente);
+            {                
+                await _clRepo.CrearCliente(clienteModel);
                 createdCliente = true;
             }            
             return createdCliente;

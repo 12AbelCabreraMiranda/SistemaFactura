@@ -1,25 +1,31 @@
 ﻿//FUNCION QUE INICIALIZA LOS DATOS EN LA TABLA
 var dataTable;//VARIABLE GLOBAL PARA PODER INVOCARLO EN OTROS METODOS Y RECARGAR SUS DATOS
 $(document).ready(function () {    
-    
+        
         dataTable = $('#TBodyCliente').DataTable({
             "ajax": {
                 "url": "/Cliente/GetClientes",
                 "type": "GET",
                 "datatype": "json"
-            },
+            },            
+
             "columns": [
+               
                 {
                     "data": "clienteId",
-                    "width": "20%"
+                    "width": "10%"
+                },
+                {
+                    "data": "fechaRegistrado",                    
+                    "width": "25%"                    
                 },
                 {
                     "data": "nombreCliente",
-                    "width": "35%"
+                    "width": "25%"
                 },
                 {
                     "data": "nit",
-                    "width": "20%"
+                    "width": "15%"
                 },
                 {
                     "data": "clienteId",
@@ -27,10 +33,13 @@ $(document).ready(function () {
                     "render": function (data) {
                         return "<a onclick='getbyID(" + data + ")' class='btn btn-info text-white'  style='cursor:pointer'> <i class='bi bi-check2-square'></i> Editar </a>" + " "+
                                "<a onclick='Delele(" + data + ")' class='btn btn-danger text-white'  style='cursor:pointer'> <i class='bi bi-trash'></i> Eliminar </a>" 
-                    }
+                    },
+               
+
                 },
+                
             ],
-           
+                                     
             "language": {
                 "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"//LENGUAJE ESPAÑOL DATATABLE
             },
@@ -39,7 +48,7 @@ $(document).ready(function () {
             "ordering": false,// Ordering (Sorting on Each Column)will Be Disabled
             "bAutoWidth": false,//Disable the automatic width of each column
             "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],//Initialize view of 5 records in table            
-        });
+        });       
    
 });
 
